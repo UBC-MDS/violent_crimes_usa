@@ -394,6 +394,85 @@ crime &lt;- read_csv(&quot;../data/ucr_crime_1975_2015.csv&quot;)</code></pre>
 ##   source = col_character(),
 ##   url = col_character()
 ## )</code></pre>
+<pre class="r"><code># size of data
+dim(crime )</code></pre>
+<pre><code>## [1] 2829   17</code></pre>
+<p>There are 2,829 entries in the raw dataset.</p>
+<pre class="r"><code># explore department_name (city name) variable
+crime$department_name %&gt;%
+  unique()</code></pre>
+<pre><code>##  [1] &quot;Albuquerque, N.M.&quot;           &quot;Arlington, Texas&quot;           
+##  [3] &quot;Atlanta&quot;                     &quot;Aurora, Colo.&quot;              
+##  [5] &quot;Austin, Texas&quot;               &quot;Baltimore&quot;                  
+##  [7] &quot;Baltimore County, Md.&quot;       &quot;Boston&quot;                     
+##  [9] &quot;Buffalo, N.Y.&quot;               &quot;Charlotte-Mecklenburg, N.C.&quot;
+## [11] &quot;Chicago&quot;                     &quot;Cincinnati&quot;                 
+## [13] &quot;Cleveland&quot;                   &quot;Columbus, Ohio&quot;             
+## [15] &quot;Dallas&quot;                      &quot;Denver&quot;                     
+## [17] &quot;Detroit&quot;                     &quot;El Paso, Texas&quot;             
+## [19] &quot;Fairfax County, Va.&quot;         &quot;Fort Worth, Texas&quot;          
+## [21] &quot;Fresno, Calif.&quot;              &quot;Honolulu&quot;                   
+## [23] &quot;Houston&quot;                     &quot;Indianapolis&quot;               
+## [25] &quot;Jacksonville, Fla.&quot;          &quot;Kansas City, Mo.&quot;           
+## [27] &quot;Las Vegas&quot;                   &quot;Long Beach, Calif.&quot;         
+## [29] &quot;Los Angeles&quot;                 &quot;Los Angeles County, Calif.&quot; 
+## [31] &quot;Louisville, Ky.&quot;             &quot;Memphis, Tenn.&quot;             
+## [33] &quot;Mesa, Ariz.&quot;                 &quot;Miami&quot;                      
+## [35] &quot;Miami-Dade County, Fla.&quot;     &quot;Milwaukee&quot;                  
+## [37] &quot;Minneapolis&quot;                 &quot;Montgomery County, Md.&quot;     
+## [39] &quot;Nashville, Tenn.&quot;            &quot;Nassau County, N.Y.&quot;        
+## [41] &quot;National&quot;                    &quot;New Orleans&quot;                
+## [43] &quot;New York City&quot;               &quot;Newark, N.J.&quot;               
+## [45] &quot;Oakland, Calif.&quot;             &quot;Oklahoma City&quot;              
+## [47] &quot;Omaha, Neb.&quot;                 &quot;Orlando, Fla.&quot;              
+## [49] &quot;Philadelphia&quot;                &quot;Phoenix&quot;                    
+## [51] &quot;Pittsburgh&quot;                  &quot;Portland, Ore.&quot;             
+## [53] &quot;Prince George's County, Md.&quot; &quot;Raleigh, N.C.&quot;              
+## [55] &quot;Sacramento, Calif.&quot;          &quot;Salt Lake City&quot;             
+## [57] &quot;San Antonio&quot;                 &quot;San Diego&quot;                  
+## [59] &quot;San Francisco&quot;               &quot;San Jose&quot;                   
+## [61] &quot;Seattle&quot;                     &quot;St. Louis, Mo.&quot;             
+## [63] &quot;Suffolk County, N.Y.&quot;        &quot;Tampa, Fla.&quot;                
+## [65] &quot;Tucson, Ariz.&quot;               &quot;Tulsa, Okla.&quot;               
+## [67] &quot;Virginia Beach, Va.&quot;         &quot;Washington, D.C.&quot;           
+## [69] &quot;Wichita, Kan.&quot;</code></pre>
+<p>There are some potential issues with this variable:</p>
+<ul>
+<li><p>some police department oversees counties as well, for the purpose of this app, we only want to display information cities.</p></li>
+<li><p>the variable value “National” is not a meaningful entry for our app.</p></li>
+</ul>
+<pre class="r"><code># count the number of problematic city names
+crime$department_name %&gt;%
+  unique() %&gt;% 
+  str_subset(pattern = &quot;County|National&quot;)</code></pre>
+<pre><code>## [1] &quot;Baltimore County, Md.&quot;       &quot;Fairfax County, Va.&quot;        
+## [3] &quot;Los Angeles County, Calif.&quot;  &quot;Miami-Dade County, Fla.&quot;    
+## [5] &quot;Montgomery County, Md.&quot;      &quot;Nassau County, N.Y.&quot;        
+## [7] &quot;National&quot;                    &quot;Prince George's County, Md.&quot;
+## [9] &quot;Suffolk County, N.Y.&quot;</code></pre>
+<p>There are 9 potentially problematic city names for our application.</p>
+<pre class="r"><code># explore incomplete entries
+# identify annual reports with less than 12 months reported
+crime %&gt;% 
+  filter(months_reported &lt; 12)</code></pre>
+<pre><code>## # A tibble: 53 x 17
+##    ORI    year department_name total_pop homs_sum rape_sum rob_sum
+##    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1 FL01…  1975 Miami-Dade Cou…    619795       94      174    2426
+##  2 NY05…  1975 Suffolk County…   1217700       13       90     531
+##  3 TXHP…  1980 Houston           1557575      524     1264    9181
+##  4 NY01…  1981 Buffalo, N.Y.      359167       25      229    1734
+##  5 VA02…  1981 Fairfax County…    579696       14       99     533
+##  6 TXHP…  1981 Houston           1621897      497      967    6893
+##  7 NY05…  1981 Suffolk County…   1164699       21       91     820
+##  8 NY05…  1982 Suffolk County…   1169000       27      115    1002
+##  9 NY02…  1983 Nassau County,…   1058726       31       54     951
+## 10 NY05…  1983 Suffolk County…   1169529       26      151     983
+## # ... with 43 more rows, and 10 more variables: agg_ass_sum &lt;dbl&gt;,
+## #   violent_crime &lt;dbl&gt;, months_reported &lt;dbl&gt;, violent_per_100k &lt;dbl&gt;,
+## #   homs_per_100k &lt;dbl&gt;, rape_per_100k &lt;dbl&gt;, rob_per_100k &lt;dbl&gt;,
+## #   agg_ass_per_100k &lt;dbl&gt;, source &lt;chr&gt;, url &lt;chr&gt;</code></pre>
+<p>There are 53 annual reports with less than 12 months reported.</p>
 
 
 
