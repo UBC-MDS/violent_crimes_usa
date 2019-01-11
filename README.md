@@ -4,9 +4,11 @@ Contributors: Alycia Butterworth ([alyciakb](https://github.com/alyciakb)), Geor
 
 ## Overview
 
-US government agencies typically do not publish crime data in a format that is readily accessible to the general public. To address this issue, we propose developing a free and open-source tool that can empower the public to visually explore crime incidents and trends in the cities they care about. Our project aims to display the geographical distribution of four types of violent crimes: homicide, rape, robbery, and aggravated assault across major US cities. We will also encourage users to explore crime trends, by allowing them to select a particular city and examine how crime rate for that city changes over time.
+US government agencies typically do not publish crime data in a format that is readily accessible to the general public. To address this issue, we propose developing a free and open-source tool that can empower the public to visually explore crime incidents and crime trends in the cities they care about. Our project aims to display the geographical distribution of four types of violent crimes: homicide, rape, robbery, and aggravated assault across major US cities. We will also encourage users to explore crime trends, by allowing them to select a particular city and examine how crime rate for that city has changed over time.
 
 ## Data
+
+
 
 ## Usage scenario
 
