@@ -30,15 +30,20 @@ crime$department_name %>%
 
 There are some potential issues with this variable:
 
-- some police department oversees counties as well, for the purpose of this app, we only want to display information cities.
+- some police departments oversee counties as well, for the purpose of this app, we only want to display information about cities.
 
 - the variable value "National" is not a meaningful entry for our app.
 
 ```{r}
 # count the number of problematic city names
-crime$department_name %>%
+bad_names <- crime$department_name %>%
   unique() %>% 
   str_subset(pattern = "County|National")
+bad_names %>% print()
+```
+
+```{r}
+bad_names %>% length()
 ```
 
 There are 9 potentially problematic city names for our application.
@@ -47,7 +52,18 @@ There are 9 potentially problematic city names for our application.
 # explore incomplete entries
 # identify annual reports with less than 12 months reported
 crime %>% 
-  filter(months_reported < 12)
+  filter(months_reported < 12) %>% 
+  select(ORI, months_reported)
 ```
 
 There are 53 annual reports with less than 12 months reported.
+
+```{r}
+# tentative attempt at removing problematic entries
+# at worst case, we are removing all incomplete annual reports
+# at worst case, we are removing all potentially problematic city names
+crime %>% 
+  filter(months_reported == 12, !department_name %in% bad_names)
+```
+
+At worst case, we are left with 2,348 seemingly valid entries.

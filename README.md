@@ -4,11 +4,25 @@ Contributors: Alycia Butterworth ([alyciakb](https://github.com/alyciakb)), Geor
 
 ## Overview
 
-US government agencies typically do not publish crime data in a format that is readily accessible to the general public. To address this issue, we propose developing a free and open-source tool that can empower the public to visually explore crime incidents and crime trends in the cities they care about. Our project aims to display the geographical distribution of four types of violent crimes: homicide, rape, robbery, and aggravated assault across major US cities. We will also encourage users to explore crime trends, by allowing them to select a particular city and examine how crime rate for that city has changed over time.
+US government agencies typically do not publish crime data in a format that is readily accessible to the general public. To address this issue, we propose developing a free and open-source tool that can empower the public to visually explore crime incidents and crime trends for the cities they care about. Our project aims to display the geographical distribution of four types of violent crimes: homicide, rape, robbery, and aggravated assault across major US cities. We will also encourage users to explore crime trends, by allowing them to select a particular city and examine how crime rate for that city has changed over time.
 
 ## Data
 
+This project will visualize the crime data of more than 50 US cities between the year 1975 and 2015, using information compiled by [The Marshall Project](https://github.com/themarshallproject/city-crime). Each city and year is associated with 9 variables, as follows:
 
+| Variable | Description |
+| -- | -- |
+| department_name | Name of the city in which a violent crime was reported |
+| year | Year in which a violent crime was reported |
+| homs_per_100k | Homicide crime rate per 100k population |
+| rape_per_100k | Rape crime rate per 100k population |
+| rob_per_100k | Robbery crime rate per 100k population |
+| agg_ass_per_100k | Aggravated assault crime rate per 100k population |
+| violent_per_100k | Rate of all four types of violent crime per 100k population |
+| lon | The longitude of a city |
+| lat | The latitude of a city |
+
+Note that we will derive the longitude and latitude of a city using its name, and this information is not present in the original dataset compiled by [The Marshall Project](https://github.com/themarshallproject/city-crime).
 
 ## Usage scenario
 

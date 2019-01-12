@@ -88,8 +88,8 @@ crime$department_name %>%
 
 There are some potential issues with this variable:
 
-  - some police department oversees counties as well, for the purpose of
-    this app, we only want to display information cities.
+  - some police departments oversee counties as well, for the purpose of
+    this app, we only want to display information about cities.
 
   - the variable value “National” is not a meaningful entry for our app.
 
@@ -114,25 +114,23 @@ There are 9 potentially problematic city names for our application.
 # explore incomplete entries
 # identify annual reports with less than 12 months reported
 crime %>% 
-  filter(months_reported < 12)
+  filter(months_reported < 12) %>% 
+  select(ORI, months_reported)
 ```
 
-    ## # A tibble: 53 x 17
-    ##    ORI    year department_name total_pop homs_sum rape_sum rob_sum
-    ##    <chr> <dbl> <chr>               <dbl>    <dbl>    <dbl>   <dbl>
-    ##  1 FL01…  1975 Miami-Dade Cou…    619795       94      174    2426
-    ##  2 NY05…  1975 Suffolk County…   1217700       13       90     531
-    ##  3 TXHP…  1980 Houston           1557575      524     1264    9181
-    ##  4 NY01…  1981 Buffalo, N.Y.      359167       25      229    1734
-    ##  5 VA02…  1981 Fairfax County…    579696       14       99     533
-    ##  6 TXHP…  1981 Houston           1621897      497      967    6893
-    ##  7 NY05…  1981 Suffolk County…   1164699       21       91     820
-    ##  8 NY05…  1982 Suffolk County…   1169000       27      115    1002
-    ##  9 NY02…  1983 Nassau County,…   1058726       31       54     951
-    ## 10 NY05…  1983 Suffolk County…   1169529       26      151     983
-    ## # ... with 43 more rows, and 10 more variables: agg_ass_sum <dbl>,
-    ## #   violent_crime <dbl>, months_reported <dbl>, violent_per_100k <dbl>,
-    ## #   homs_per_100k <dbl>, rape_per_100k <dbl>, rob_per_100k <dbl>,
-    ## #   agg_ass_per_100k <dbl>, source <chr>, url <chr>
+    ## # A tibble: 53 x 2
+    ##    ORI     months_reported
+    ##    <chr>             <dbl>
+    ##  1 FL01300              11
+    ##  2 NY05101               9
+    ##  3 TXHPD00              10
+    ##  4 NY01401              10
+    ##  5 VA02901              11
+    ##  6 TXHPD00               9
+    ##  7 NY05101               7
+    ##  8 NY05101               8
+    ##  9 NY02900              11
+    ## 10 NY05101              11
+    ## # ... with 43 more rows
 
 There are 53 annual reports with less than 12 months reported.
