@@ -15,6 +15,20 @@ suppressPackageStartupMessages(library(tidyverse))
 crime <- read_csv("../data/ucr_crime_1975_2015.csv")
 ```
 
+
+
+```{r}
+# some information for the usage scenario
+crime %>% 
+  filter(year == 2015, department_name == "Denver")
+```
+
+```{r}
+crime %>% 
+  filter(year == 2015, department_name == "Kansas City, Mo.")
+```
+
+
 ```{r}
 # size of data
 dim(crime )

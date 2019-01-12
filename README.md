@@ -4,7 +4,7 @@ Contributors: Alycia Butterworth ([alyciakb](https://github.com/alyciakb)), Geor
 
 ## Overview
 
-US government agencies typically do not publish crime data in a format that is readily accessible to the general public. To address this issue, we propose developing a free and open-source tool that can empower the public to visually explore crime incidents and crime trends for the cities they care about. Our project aims to display the geographical distribution of four types of violent crimes: homicide, rape, robbery, and aggravated assault across major US cities. We will also encourage users to explore crime trends, by allowing them to select a particular city and examine how crime rate for that city has changed over time.
+US government agencies typically do not publish crime data in a format that is readily accessible to the general public. To address this issue, we propose developing a free and open-source tool that can empower the public to visually explore crime rates and crime trends for the cities they care about. Our project aims to display the geographical distribution of four types of violent crimes: homicide, rape, robbery, and aggravated assault across major US cities. We will also encourage users to explore crime trends, by allowing them to select a particular city and examine how crime rate for that city has changed over time.
 
 ## Data
 
@@ -18,13 +18,19 @@ This project will visualize the crime data of more than 50 US cities between the
 | rape_per_100k | Rape crime rate per 100k population |
 | rob_per_100k | Robbery crime rate per 100k population |
 | agg_ass_per_100k | Aggravated assault crime rate per 100k population |
-| violent_per_100k | Rate of all four types of violent crime per 100k population |
+| violent_per_100k | Rate of all four types of violent crimes per 100k population |
 | lon | The longitude of a city |
 | lat | The latitude of a city |
 
-Note that we will derive the longitude and latitude of a city using its name, and this information is not present in the original dataset compiled by [The Marshall Project](https://github.com/themarshallproject/city-crime).
+Note that we will derive the longitude and latitude of a city using its name, as this information is not present in the original data source.
 
 ## Usage scenario
+
+Richard is an electrician born and raised in Denver, Colorado. Just recently, he received a lucrative job offer from Kansas City, Missouri. Richard does not mind moving two states over, but he understands that his new job will require him to frequently perform late night repairs in urban neighborhoods. Before making a decision, Richard wants to get a sense of how much criminal activities are in both cities.
+
+Richard does not know programming, and he cannot make sense of the crime data available on the US government websites. This is when he comes across this "US violent crime visualizer" app. When Richard opens the app, he will see how violent crimes are geographically distributed across the United States. Using options on the left side of the screen, Richard can select data from the year 2015, and he can also filter for a particular type of crime; in this case, Richard wants to examine all four types of violent crimes. By clicking on the `Rank Table` tab at the top of the screen, Richard will be able to compare crime rates between cities on a ranked table. Richard should be able to see that for the year of 2015, Kansas City had a higher violent crime rate per 100k population than Denver.
+
+In the bottom left corner of the screen, Richard will be able to select Denver from a dropdown menu. From the four line plots in the bottom half of the screen, he will be able to explore how the different crime rates for Denver had changed over time. He can also do the same for Kansas City. Richard will notice that Kansas City's violent crime rates had dropped considerably over the course of ten years, whereas Denver's crime rates had been holding steady. With this information about the two cities, Richard can make a more informed decision about his relocation.     
 
 ## App Description and Sketch
 
