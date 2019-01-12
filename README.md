@@ -38,10 +38,10 @@ The "US Violent Crime Visualizer" app will two tab view options: map view and ra
 
 Below the map (or table) are four small line graphs that allow a user to learn more about a specific city. The line charts show the per capita crime rate across the years (1975-2015). There is one plot for each crime type: homicide, rape, robbery, and aggravated assault. The left bar has a dropdown menu that gives the option for the user to select a specific city or the average across all cities.
 
-#### Sketch: Map View
+### Sketch: Map View
 
 ![Tab View 1](img/mockup_map_annotated.png)
 
-#### Sketch: Table View
+### Sketch: Table View
 
 ![Tab View 2](img/mockup_table_annotated.png)
