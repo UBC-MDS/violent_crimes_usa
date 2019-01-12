@@ -1,3 +1,8 @@
+---
+title: EDA
+output: github_document
+---
+
 This is a exploratory data analysis to explore the [Marshall Violent Crime](https://github.com/themarshallproject/city-crime) dataset.
 
 ```{r}
