@@ -1,0 +1,83 @@
+---
+title: EDA
+output: github_document
+---
+
+This is a exploratory data analysis to explore the [Marshall Violent Crime](https://github.com/themarshallproject/city-crime) dataset.
+
+```{r}
+# load libraries
+suppressPackageStartupMessages(library(tidyverse))
+```
+
+```{r}
+# load data
+crime <- read_csv("../data/ucr_crime_1975_2015.csv")
+```
+
+
+
+```{r}
+# some information for the usage scenario
+crime %>% 
+  filter(year == 2015, department_name == "Denver")
+```
+
+```{r}
+crime %>% 
+  filter(year == 2015, department_name == "Kansas City, Mo.")
+```
+
+
+```{r}
+# size of data
+dim(crime )
+```
+
+There are 2,829 entries in the raw dataset.
+
+```{r}
+# explore department_name (city name) variable
+crime$department_name %>%
+  unique()
+```
+
+There are some potential issues with this variable:
+
+- some police departments oversee counties as well, for the purpose of this app, we only want to display information about cities.
+
+- the variable value "National" is not a meaningful entry for our app.
+
+```{r}
+# count the number of problematic city names
+bad_names <- crime$department_name %>%
+  unique() %>% 
+  str_subset(pattern = "County|National")
+bad_names %>% print()
+```
+
+```{r}
+bad_names %>% length()
+```
+
+There are 9 potentially problematic city names for our application.
+
+```{r}
+# explore incomplete entries
+# identify annual reports with less than 12 months reported
+crime %>% 
+  filter(months_reported < 12) %>% 
+  select(ORI, months_reported)
+```
+
+There are 53 annual reports with less than 12 months reported.
+
+```{r}
+# tentative attempt at removing problematic entries
+# at worst case, we are removing all incomplete annual reports
+# at worst case, we are removing all potentially problematic city names
+crime %>% 
+  filter(months_reported == 12, !department_name %in% bad_names)
+```
+
+At worst case, we are left with 2,348 seemingly valid entries.
