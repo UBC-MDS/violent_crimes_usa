@@ -8,11 +8,14 @@ This is a exploratory data analysis to explore the [Marshall Violent Crime](http
 ```{r}
 # load libraries
 suppressPackageStartupMessages(library(tidyverse))
+library(ggmap)
+register_google(key = "AIzaSyDJMwpOAL6NbVPxIx1k-yu53fuDS7NybpA")
 ```
 
 ```{r}
 # load data
 crime <- read_csv("../data/ucr_crime_1975_2015.csv")
+latlon <- read_csv("../data/city_latlon.csv")
 ```
 
 
@@ -76,8 +79,32 @@ There are 53 annual reports with less than 12 months reported.
 # tentative attempt at removing problematic entries
 # at worst case, we are removing all incomplete annual reports
 # at worst case, we are removing all potentially problematic city names
-crime %>% 
-  filter(months_reported == 12, !department_name %in% bad_names)
+(crime_clean <- crime %>% 
+  filter(months_reported == 12, !department_name %in% bad_names) %>% 
+  separate(department_name, into = c("city", "state"), sep = ",")) %>% 
+  mutate(city = str_replace(city, "Charlotte-Mecklenburg", "Charlotte")) %>% 
+  left_join(latlon, by = c("city" = "locality")) %>%
+  separate(address, into = c("cityname", "statecode", "country"), sep = ",") %>% 
+  mutate(state = str_to_upper(statecode)) %>% 
+  unite("department_name", c(city, state), sep = ",") %>% 
+  select(department_name, year, total_pop, violent_per_100k, homs_per_100k, rape_per_100k, rob_per_100k, agg_ass_per_100k, lon, lat) %>% 
+  write_csv("../data/crime_clean.csv")
 ```
 
 At worst case, we are left with 2,348 seemingly valid entries.
+
+The following commands are for fetching lat/lon for each city names using Google's API.
+
+```{r}
+# add lat/lon coordinates to cities
+#(city_latlon <- crime_clean$department_name %>% 
+  #unique() %>% 
+  #geocode(output = "more", source = "google"))
+```
+
+```{r}
+# save output
+#city_latlon %>%
+  #write_csv(path = "../data/city_latlon.csv")
+```
+
