@@ -1,0 +1,61 @@
+lon,lat,type,loctype,address,north,south,east,west,locality,administrative_area_level_2,administrative_area_level_1,country,administrative_area_level_3
+-106.650422,35.0843859,locality,approximate,"albuquerque, nm, usa",35.2180539,34.9467659,-106.4711629,-106.881796,Albuquerque,Bernalillo County,New Mexico,United States,NA
+-97.10806559999999,32.735687,locality,approximate,"arlington, tx, usa",32.8171209,32.5865651,-97.037008,-97.23381810000001,Arlington,Tarrant County,Texas,United States,NA
+-84.3879824,33.7489954,locality,approximate,"atlanta, ga, usa",33.8876179,33.6478079,-84.289389,-84.5518189,Atlanta,Fulton County,Georgia,United States,NA
+-104.8319195,39.7294319,locality,approximate,"aurora, co, usa",39.826671,39.550999,-104.4889061,-104.884761,Aurora,Arapahoe County,Colorado,United States,NA
+-97.7430608,30.267153,locality,approximate,"austin, tx, usa",30.5168629,30.0986589,-97.5684199,-97.9383829,Austin,Travis County,Texas,United States,NA
+-76.6121893,39.2903848,locality,approximate,"baltimore, md, usa",39.3722059,39.1972069,-76.5294528,-76.71151909999999,Baltimore,NA,Maryland,United States,NA
+-71.0588801,42.3600825,locality,approximate,"boston, ma, usa",42.40081989999999,42.22788,-70.749455,-71.191113,Boston,Suffolk County,Massachusetts,United States,NA
+-78.8783689,42.88644679999999,locality,approximate,"buffalo, ny, usa",42.9664549,42.826023,-78.795157,-78.9337276,Buffalo,Erie County,New York,United States,NA
+-80.8431267,35.2270869,locality,approximate,"charlotte, nc, usa",35.39313300000001,35.0131739,-80.670104,-81.0095539,Charlotte,Mecklenburg County,North Carolina,United States,"1, Charlotte"
+-87.6297982,41.8781136,locality,approximate,"chicago, il, usa",42.023131,41.6443349,-87.52366099999999,-87.9402669,Chicago,Cook County,Illinois,United States,NA
+-84.5120196,39.1031182,locality,approximate,"cincinnati, oh, usa",39.2207591,39.051921,-84.36875479999999,-84.71204809999999,Cincinnati,Hamilton County,Ohio,United States,NA
+-81.6943605,41.49932,locality,approximate,"cleveland, oh, usa",41.604436,41.390628,-81.5327439,-81.878976,Cleveland,Cuyahoga County,Ohio,United States,NA
+-82.99879419999999,39.9611755,locality,approximate,"columbus, oh, usa",40.1572719,39.808631,-82.77137809999999,-83.2102799,Columbus,Franklin County,Ohio,United States,NA
+-96.79698789999999,32.7766642,locality,approximate,"dallas, tx, usa",33.0237921,32.617537,-96.4637379,-96.999347,Dallas,Dallas County,Texas,United States,NA
+-104.990251,39.7392358,locality,approximate,"denver, co, usa",39.91424689999999,39.614431,-104.6002959,-105.109927,Denver,Denver County,Colorado,United States,NA
+-83.0457538,42.331427,locality,approximate,"detroit, mi, usa",42.45023,42.255192,-82.910451,-83.287959,Detroit,Wayne County,Michigan,United States,NA
+-106.4850217,31.7618778,locality,approximate,"el paso, tx, usa",32.001481,31.6207851,-106.2131129,-106.6359219,El Paso,El Paso County,Texas,United States,NA
+-97.3307658,32.7554883,locality,approximate,"fort worth, tx, usa",33.0493109,32.552315,-97.033715,-97.54492289999999,Fort Worth,Tarrant County,Texas,United States,NA
+-119.7871247,36.7377981,locality,approximate,"fresno, ca, usa",36.908905,36.66216190000001,-119.6546399,-119.934483,Fresno,Fresno County,California,United States,NA
+-157.8583333,21.3069444,locality,approximate,"honolulu, hi, usa",21.4012299,21.2548377,-157.6487031,-157.949443,Honolulu,Honolulu County,Hawaii,United States,NA
+-95.3698028,29.7604267,locality,approximate,"houston, tx, usa",30.1107319,29.523624,-95.014496,-95.78808690000001,Houston,Harris County,Texas,United States,NA
+-86.158068,39.768403,locality,approximate,"indianapolis, in, usa",39.927392,39.632177,-85.9373789,-86.32812109999999,Indianapolis,Marion County,Indiana,United States,NA
+-81.65565099999999,30.3321838,locality,approximate,"jacksonville, fl, usa",30.586232,30.103748,-81.316712,-82.0495018,Jacksonville,Duval County,Florida,United States,NA
+-94.5785667,39.0997265,locality,approximate,"kansas city, mo, usa",39.356662,38.827176,-94.385522,-94.765917,Kansas City,Jackson County,Missouri,United States,NA
+-115.1398296,36.1699412,locality,approximate,"las vegas, nv, usa",36.3,35.95,-114.95,-115.4,Las Vegas,Clark County,Nevada,United States,NA
+-118.1937395,33.7700504,locality,approximate,"long beach, ca, usa",33.8854591,33.714957,-118.063253,-118.248966,Long Beach,Los Angeles County,California,United States,NA
+-118.2436849,34.0522342,locality,approximate,"los angeles, ca, usa",34.3373061,33.7036519,-118.1552891,-118.6681759,Los Angeles,Los Angeles County,California,United States,NA
+-90.0489801,35.1495343,locality,approximate,"memphis, tn, usa",35.264187,34.994185,-89.637081,-90.3044929,Memphis,Shelby County,Tennessee,United States,NA
+-111.8314724,33.4151843,locality,approximate,"mesa, az, usa",33.513376,33.2776239,-111.580636,-111.894881,Mesa,Maricopa County,Arizona,United States,NA
+-80.1917902,25.7616798,locality,approximate,"miami, fl, usa",25.855773,25.709042,-80.139157,-80.3197599,Miami,Miami-Dade County,Florida,United States,NA
+-87.9064736,43.0389025,locality,approximate,"milwaukee, wi, usa",43.1949671,42.9208158,-87.8639841,-88.070876,Milwaukee,Milwaukee County,Wisconsin,United States,NA
+-93.2650108,44.977753,locality,approximate,"minneapolis, mn, usa",45.05125,44.890144,-93.193794,-93.329163,Minneapolis,Hennepin County,Minnesota,United States,NA
+-86.7816016,36.1626638,locality,approximate,"nashville, tn, usa",36.4054959,35.9677851,-86.5155879,-87.054903,Nashville,Davidson County,Tennessee,United States,NA
+-90.0715323,29.95106579999999,locality,approximate,"new orleans, la, usa",30.199332,29.8666609,-89.625053,-90.14007389999999,New Orleans,Orleans Parish,Louisiana,United States,NA
+-74.0059728,40.7127753,locality,approximate,"new york, ny, usa",40.9175771,40.4773991,-73.70027209999999,-74.25908989999999,New York,NA,New York,United States,NA
+-74.1723667,40.735657,locality,approximate,"newark, nj, usa",40.788664,40.6739029,-74.1127869,-74.2513239,Newark,Essex County,New Jersey,United States,NA
+-122.2711137,37.8043637,locality,approximate,"oakland, ca, usa",37.88472489999999,37.6322259,-122.114775,-122.355881,Oakland,Alameda County,California,United States,NA
+-97.5164276,35.4675602,locality,approximate,"oklahoma city, ok, usa",35.674752,35.2905439,-97.12472,-97.83367489999999,Oklahoma City,Oklahoma County,Oklahoma,United States,NA
+-95.9345034,41.2565369,locality,approximate,"omaha, ne, usa",41.39317,41.1905479,-95.871141,-96.2913561,Omaha,Douglas County,Nebraska,United States,Chicago
+-81.3792365,28.5383355,locality,approximate,"orlando, fl, usa",28.6143519,28.3479859,-81.22977,-81.50773,Orlando,Orange County,Florida,United States,NA
+-75.1652215,39.9525839,locality,approximate,"philadelphia, pa, usa",40.1379919,39.8670041,-74.9557629,-75.280303,Philadelphia,Philadelphia County,Pennsylvania,United States,NA
+-112.0740373,33.4483771,locality,approximate,"phoenix, az, usa",33.92057,33.29025980000001,-111.926046,-112.324056,Phoenix,Maricopa County,Arizona,United States,NA
+-79.9958864,40.44062479999999,locality,approximate,"pittsburgh, pa, usa",40.501368,40.3613689,-79.8657231,-80.0952779,Pittsburgh,Allegheny County,Pennsylvania,United States,NA
+-122.6587185,45.5122308,locality,approximate,"portland, or, usa",45.65288049999999,45.4325358,-122.472024,-122.8367493,Portland,Multnomah County,Oregon,United States,NA
+-78.6381787,35.7795897,locality,approximate,"raleigh, nc, usa",35.97172800000001,35.7158079,-78.471063,-78.8190489,Raleigh,Wake County,North Carolina,United States,NA
+-121.4943996,38.5815719,locality,approximate,"sacramento, ca, usa",38.685507,38.437574,-121.325705,-121.56012,Sacramento,Sacramento County,California,United States,NA
+-111.8910474,40.7607793,locality,approximate,"salt lake city, ut, usa",40.8529699,40.700246,-111.7394581,-112.101512,Salt Lake City,Salt Lake County,Utah,United States,NA
+-98.49362819999999,29.4241219,locality,approximate,"san antonio, tx, usa",29.73872,29.2241411,-98.22295799999999,-98.8058509,San Antonio,Bexar County,Texas,United States,NA
+-117.1610838,32.715738,locality,approximate,"san diego, ca, usa",33.114249,32.534856,-116.90816,-117.3097969,San Diego,San Diego County,California,United States,NA
+-122.4194155,37.7749295,locality,approximate,"san francisco, ca, usa",37.812,37.70339999999999,-122.3482,-122.527,San Francisco,San Francisco County,California,United States,NA
+-121.8863286,37.3382082,locality,approximate,"san jose, ca, usa",37.4695381,37.124493,-121.589154,-122.0456719,San Jose,Santa Clara County,California,United States,NA
+-122.3320708,47.6062095,locality,approximate,"seattle, wa, usa",47.734145,47.4919119,-122.2244331,-122.4596959,Seattle,King County,Washington,United States,NA
+-90.19940419999999,38.6270025,locality,approximate,"st. louis, mo, usa",38.774349,38.5318519,-90.166409,-90.320515,St. Louis,NA,Missouri,United States,NA
+-82.4571776,27.950575,locality,approximate,"tampa, fl, usa",28.1714781,27.817487,-82.2597409,-82.64882,Tampa,Hillsborough County,Florida,United States,NA
+-110.9747108,32.2226066,locality,approximate,"tucson, az, usa",32.32016610000001,31.9916539,-110.708204,-111.059406,Tucson,Pima County,Arizona,United States,NA
+-95.99277500000001,36.1539816,locality,approximate,"tulsa, ok, usa",36.336506,35.968097,-95.6815429,-96.074478,Tulsa,Tulsa County,Oklahoma,United States,NA
+-75.97798499999999,36.8529263,locality,approximate,"virginia beach, va, usa",37.040886,36.5504529,-75.7974969,-76.2277601,Virginia Beach,NA,Virginia,United States,NA
+-77.0368707,38.9071923,locality,approximate,"washington, dc, usa",38.995548,38.7916449,-76.909393,-77.119759,Washington,District of Columbia,District of Columbia,United States,NA
+-97.33005299999999,37.68717609999999,locality,approximate,"wichita, ks, usa",37.8401999,37.489018,-97.153025,-97.7343619,Wichita,Sedgwick County,Kansas,United States,NA
+-85.7584557,38.2526647,locality,approximate,"louisville, ky, usa",38.38051,37.9971,-85.40509999999999,-85.948441,Louisville,Jefferson County,Kentucky,United States,NA
