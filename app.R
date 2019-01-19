@@ -13,6 +13,7 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
 
+      width = 2,
       tags$style(".well {background-color:rgba(13, 160, 165, 0.15);}"),
       tags$style(HTML("hr {border-top: 1px solid #0D9DA3; margin-top: 250px; margin-bottom: 20px;}")),
 
@@ -107,11 +108,11 @@ server <- function(input, output) {
       # compute average the crime rates for each city
       data_ave <- data %>%
         group_by(department_name) %>%
-        summarise("HOMICIDE" = sum(homs_per_100k)/39,
-               "RAPE" = sum(rape_per_100k)/39,
-               "ROBBERY" = sum(rob_per_100k)/39,
-               "AGGRAVATED ASSAULT" = sum(agg_ass_per_100k)/39,
-               "TOTAL CRIME" = sum(violent_per_100k)/39)
+        summarise("HOMICIDE" = mean(homs_per_100k),
+               "RAPE" = mean(rape_per_100k),
+               "ROBBERY" = mean(rob_per_100k),
+               "AGGRAVATED ASSAULT" = mean(agg_ass_per_100k),
+               "TOTAL CRIME" = mean(violent_per_100k))
 
       # subset population data to join with average data
       join_data <- data %>%
@@ -121,7 +122,7 @@ server <- function(input, output) {
       # join data and make presentation quality
       data_edit <- left_join(join_data, data_ave, by = "department_name")
       data_edit <- data_edit %>%
-       rename("CITY" = department_name,
+        rename("CITY" = department_name,
               "POPULATION" = total_pop) %>%
         select(total_crime()) %>%
         rename("POPULATION (in 2014)" = "POPULATION") %>%
@@ -129,7 +130,8 @@ server <- function(input, output) {
     }
     # if user selects any other year
     else {
-      data_edit %>% filter(year == input$year) %>%
+      data_edit <- data %>% 
+        filter(year == input$year) %>%
         rename("CITY" = department_name,
                "POPULATION" = total_pop,
                "TOTAL CRIME" = violent_per_100k,
@@ -158,7 +160,7 @@ server <- function(input, output) {
 
       # if user selects any other city, report that city's crime rates over time
     } else {
-      data_edit = data %>% filter(department_name == input$city) %>%
+      data_edit <- data %>% filter(department_name == input$city) %>%
         rename("HOMICIDE" = homs_per_100k,
                "RAPE" = rape_per_100k,
                "ROBBERY" = rob_per_100k,
