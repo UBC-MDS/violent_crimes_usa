@@ -2,8 +2,9 @@ library(shiny)
 library(tidyverse)
 library(DT)
 library(leaflet)
+library(htmltools)
 
-data <- read.csv("data/crime_clean.csv", stringsAsFactors = FALSE)
+data <- read_csv("data/crime_clean.csv")
 
 ui <- fluidPage(
 
@@ -54,7 +55,7 @@ ui <- fluidPage(
 
       # create tabs
       tabsetPanel(type = "tabs",
-        tabPanel("Map", plotOutput("map")),
+        tabPanel("Map", leafletOutput("map")),
         tabPanel("Rank Table", dataTableOutput("table")))
       ),
 
@@ -64,8 +65,9 @@ ui <- fluidPage(
                     plotOutput("hom"),
                     plotOutput("rape")),
         splitLayout(cellWidths = c("50%","50%"),
-                  plotOutput("rob"),
-                  plotOutput("assault")))
+                    plotOutput("rob"),
+                    plotOutput("assault"))
+      )
 
     )
   )
@@ -73,29 +75,26 @@ ui <- fluidPage(
 
 server <- function(input, output) {
 
-  #output$map <- renderLeaflet({
-    #leaflet() %>%
-     #addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
-     #fitBounds(~min(data_clean$lon), ~min(data_clean$lat), ~max(data_clean$lon), ~max(data_clean$lon))
-  #})
-
   # interactive title
-  output$caption <- renderText({paste(input$crime, "(per capita),", input$year)})
+  #output$caption <- renderText({paste(input$crime, "(per capita),", input$year)})
 
   # map plot
-  output$map <- renderPlot(data %>% filter(department_name == input$city) %>%
-                             ggplot(aes(x = year, y = rape_per_100k)) + geom_line(color = "#0D9DA3") +
-                             labs(x = "Year", y = "Rape (per capita)", title = "RAPE") +
-                             theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-                                   panel.background = element_blank(), axis.line = element_line(colour = "black"),
-                                   aspect.ratio=1))
+  output$map <- renderLeaflet({
+    leaflet() %>%
+      addProviderTiles(providers$Esri.WorldGrayCanvas) %>% 
+      setView(lng = -98.58, lat = 38, zoom = 4) %>% 
+      addCircleMarkers(data = data_map(), 
+                       radius = ~ sqrt(COUNT) * 0.8, 
+                       color = "orange",
+                       label = ~ paste(sep = "", CITY, ": ", COUNT, " incidents"))
+  })
 
   # add total crime to table if user selects all crimes
   total_crime <- reactive({
     if(length(input$crime) < 4) {
-      var_select = c("CITY", "POPULATION", input$crime)
+      var_select <- c("CITY", "POPULATION", input$crime, "lon", "lat")
     } else {
-      var_select = c("CITY", "POPULATION", "TOTAL CRIME", input$crime)
+      var_select <- c("CITY", "POPULATION", "TOTAL CRIME", input$crime, "lon", "lat")
     }
     return(var_select)
   })
@@ -117,7 +116,7 @@ server <- function(input, output) {
       # subset population data to join with average data
       join_data <- data %>%
         filter(year == 2014) %>%
-        select(department_name, total_pop)
+        select(department_name, total_pop, lon, lat)
 
       # join data and make presentation quality
       data_edit <- left_join(join_data, data_ave, by = "department_name")
@@ -144,9 +143,20 @@ server <- function(input, output) {
     }
     return(data_edit)
   })
+  
+  # prepare map data
+  data_map <- reactive({
+    data_edit <- data_time_ave()
+    data_edit$COUNT <- data_edit %>% 
+      select(c(one_of(input$crime))) %>% 
+      rowSums()
+    return(data_edit)
+  })
 
   # rank table plot
-  output$table <- renderDataTable(data_time_ave())
+  output$table <- renderDataTable(data_time_ave() %>% 
+    select(-c("lon", "lat"))
+  )
 
   # select "All Cities"
   city_choice <- reactive ({
