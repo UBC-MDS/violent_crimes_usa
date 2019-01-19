@@ -10,26 +10,48 @@ data <- read.csv("data/crime_clean.csv", stringsAsFactors = FALSE)
 # you will likely need to do the same in your map. Sorry! It was the easiest way I could make the table names pretty
 
 ui <- fluidPage(
+  
   sidebarLayout(
     sidebarPanel(
       tags$style(".well {background-color:rgba(13, 160, 165, 0.15);}"),
-      selectInput("year", "SELECT YEAR", c("Average Over Time" = "ave_all", 
-                                           sort(unique(data$year), decreasing = TRUE))
-                                           , selectize = FALSE),
-      checkboxGroupInput("crime", "SELECT CRIME(S)", c("Homicide" = "HOMICIDES",
-                                                       "Rape" = "RAPE",
-                                                       "Robbery" = "ROBBERIES",
-                                                       "Aggravated Assault" = "AGGRAVATED ASSAULTS")),
-      selectInput("city", "SELECT A CITY", c("All Cities", unique(data$department_name)), selectize = FALSE)
+      tags$style(HTML("hr {border-top: 1px solid #0D9DA3; margin-top: 300px; margin-bottom: 20px;}")),
+      
+      helpText("Compare violent crime rates (per capita) of major US cities:"),
+      
+      # year input
+      selectInput("year", "SELECT YEAR", 
+                  c("Average Over Time" = "1975-2014",
+                    sort(unique(data$year), decreasing = TRUE)), 
+                  selectize = FALSE),
+      
+      # crimes input
+      checkboxGroupInput("crime", "SELECT CRIME(S)", 
+                         c("Homicide" = "HOMICIDES", 
+                           "Rape" = "RAPE",
+                           "Robbery" = "ROBBERIES",
+                           "Aggravated Assault" = "AGGRAVATED ASSAULTS"),
+                         selected = "HOMICIDES"),
+      
+      # break line
+      hr(),
+      helpText("Graph violent crime trends of a specific city over time:"),
+      
+      # city selector
+      selectInput("city", "SELECT A CITY", 
+                  c("All Cities", unique(data$department_name)), selectize = FALSE)
 
     
     ),
   
     mainPanel(
+      titlePanel(title = list(textOutput("year_caption"))),
+      
+      # create tabs
       tabsetPanel(type = "tabs",
         tabPanel("Map", plotOutput("map")), 
         tabPanel("Rank Table", dataTableOutput("table"))),
       
+      # display 4 city violent crime plots
       fluidRow(
         splitLayout(cellWidths = c("50%","50%"),
                     plotOutput("hom"),
@@ -46,13 +68,17 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
+  # interactive title
+  output$year_caption <- renderText({paste(input$crime, "(per capita),", input$year)})
+  
+  # map plot
   output$map <- renderPlot(data %>% filter(department_name == input$city) %>% 
                              ggplot(aes(x = year, y = rape_per_100k)) + geom_line(color = "#0D9DA3") + 
                              labs(x = "Year", y = "Rape (per capita)", title = "RAPE") +
                              theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                                    panel.background = element_blank(), axis.line = element_line(colour = "black"),
                                    aspect.ratio=1))
-  
+  # rank table plot
   output$table <- renderDataTable(data %>% filter(year == input$year) %>% 
                                     rename("CITY" = department_name, 
                                            "POPULATION" = total_pop,
@@ -65,7 +91,7 @@ server <- function(input, output) {
                                     select("CITY", "POPULATION", input$crime) %>% 
                                     mutate_if(is.numeric, round, 0)
   )
-  
+  # homicides over time plot
   output$hom <- renderPlot(data %>% filter(department_name == input$city) %>% 
       ggplot(aes(x = year, y = homs_per_100k)) + geom_line(color = "#0D9DA3") + 
       labs(x = "Year", y = "Homicides (per capita)", title = "HOMICIDE") +
@@ -77,6 +103,7 @@ server <- function(input, output) {
   #output$hom_hover <- renderPrint({cat("Year")
    # str(input$plot_hover)})
   
+  # rape over time plot
   output$rape <- renderPlot(
     data %>% filter(department_name == input$city) %>% 
     ggplot(aes(x = year, y = rape_per_100k)) + geom_line(color = "#0D9DA3") + 
@@ -85,7 +112,7 @@ server <- function(input, output) {
           panel.background = element_blank(), axis.line = element_line(colour = "black"),
           aspect.ratio=1)
   )
-  
+  # robberies over time plot
   output$rob <- renderPlot(data %>% filter(department_name == input$city) %>% 
     ggplot(aes(x = year, y = rob_per_100k)) + geom_line(color = "#0D9DA3") + 
     labs(x = "Year", y = "Robberies (per capita)", title = "ROBBERY") +
@@ -93,7 +120,7 @@ server <- function(input, output) {
           panel.background = element_blank(), axis.line = element_line(colour = "black"),
           aspect.ratio=1)
   )
-  
+  # assaults over time plot
   output$assault <- renderPlot(data %>% filter(department_name == input$city) %>% 
     ggplot(aes(x = year, y = agg_ass_per_100k)) + geom_line(color = "#0D9DA3") + 
     labs(x = "Year", y = "Aggravated Assault (per capita)", 
