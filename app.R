@@ -1,12 +1,17 @@
 library(shiny)
 library(tidyverse)
 library(DT)
+library(leaflet)
 
+# load data
 data <- read.csv("data/ucr_crime_1975_2015.csv", stringsAsFactors = FALSE)
+data_clean <- read_csv("data/crime_clean.csv")
 
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
+      # set sidepanel with to 2/12 units.
+      width = 2,
       tags$style(".well {background-color:rgba(13, 160, 165, 0.15);}"),
       selectInput("year", "SELECT YEAR", c("Average Over Time", 
                                            sort(unique(data$year), decreasing = TRUE))
@@ -21,7 +26,9 @@ ui <- fluidPage(
     
     ),
     mainPanel(
-      #plotOutput("map"),
+      width = 10,
+      # display leaflet map widget 
+      leafletOutput("map"),
       dataTableOutput("table"),
       fluidRow(
         splitLayout(cellWidths = c("25%", "25%", "25%", "25%"),
@@ -37,11 +44,14 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  #output$map <- renderPlot(
-   # bcl %>% filter(Price > input$priceInput[1],
-    #               Price < input$priceInput[2]) %>% 
-     # ggplot(aes(Price)) + geom_histogram()
-  #)
+  
+  
+  output$map <- renderLeaflet({
+    leaflet() %>% 
+      addProviderTiles(providers$Esri.WorldGrayCanvas) %>% 
+      fitBounds(~min(data_clean$lon), ~min(data_clean$lat), ~max(data_clean$lon), ~max(data_clean$lon))
+  })
+  
   output$table <- renderDataTable(data %>% filter(year == input$year) %>% 
                                 select(department_name, total_pop, input$crime) %>% 
                                 mutate_if(is.numeric, round, 0) %>% 
