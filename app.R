@@ -3,118 +3,143 @@ library(tidyverse)
 library(DT)
 library(leaflet)
 
-# load data
-data <- read.csv("data/ucr_crime_1975_2015.csv", stringsAsFactors = FALSE)
-data_clean <- read_csv("data/crime_clean.csv")
+data <- read.csv("data/crime_clean.csv", stringsAsFactors = FALSE)
+
+# TO DO ALYCIA: "Average over time", "all cities"
+# Notes for George: I copied my rape graph into the map section as a placeholder or else the app won't run for me
+# Notes for George: I renamed variables within checkboxGroupInput, so note the rename I did in the table,
+# you will likely need to do the same in your map. Sorry! It was the easiest way I could make the table names pretty
 
 ui <- fluidPage(
+
   sidebarLayout(
     sidebarPanel(
       # set sidepanel with to 2/12 units.
       width = 2,
       tags$style(".well {background-color:rgba(13, 160, 165, 0.15);}"),
-      selectInput("year", "SELECT YEAR", c("Average Over Time", 
-                                           sort(unique(data$year), decreasing = TRUE))
-                                           , selectize = FALSE),
-      radioButtons("crime", "SELECT A CRIME", c("SELECT ALL" = "violent_per_100k",
-                                                "Homicide" = "homs_per_100k",
-                                                "Rape" = "rape_per_100k",
-                                                "Robbery" = "rob_per_100k",
-                                                "Aggravated Assault" = "agg_ass_per_100k")),
-      selectInput("city", "SELECT A CITY", c("All Cities", unique(data$department_name)), selectize = FALSE)
-      
-    
+      tags$style(HTML("hr {border-top: 1px solid #0D9DA3; margin-top: 300px; margin-bottom: 20px;}")),
+
+      helpText("Compare crime rates (per capita) of major US cities:"),
+
+      # year input
+      selectInput("year", "SELECT YEAR",
+                  c("Average Over Time" = "1975-2014",
+                    sort(unique(data$year), decreasing = TRUE)),
+                  selectize = FALSE),
+
+      # crimes input
+      checkboxGroupInput("crime", "SELECT CRIME(S)",
+                         c("Homicide" = "HOMICIDES",
+                           "Rape" = "RAPE",
+                           "Robbery" = "ROBBERIES",
+                           "Aggravated Assault" = "AGGRAVATED ASSAULTS"),
+                         selected = "HOMICIDES"),
+
+      # break line
+      hr(),
+      helpText("Graph crime trends of a specific city over time:"),
+
+      # city selector
+      selectInput("city", "SELECT A CITY",
+                  c("All Cities", unique(data$department_name)), selectize = FALSE)
+
+
     ),
+
     mainPanel(
-      width = 10,
-      # display leaflet map widget 
-      leafletOutput("map"),
-      dataTableOutput("table"),
+      titlePanel(title = list(textOutput("year_caption"))),
+
+      # create tabs
+      tabsetPanel(type = "tabs",
+        tabPanel("Map", plotOutput("map")),
+        tabPanel("Rank Table", dataTableOutput("table"))),
+
+      # display 4 city violent crime plots
       fluidRow(
-        splitLayout(cellWidths = c("25%", "25%", "25%", "25%"),
-        plotOutput("hom", hover = hoverOpts(id="plot_hover")),
-        plotOutput("rape"),
-        plotOutput("rob"),
-        plotOutput("assault"))
-      ),
+        splitLayout(cellWidths = c("50%","50%"),
+                    plotOutput("hom"),
+                    plotOutput("rape")),
+        splitLayout(cellWidths = c("50%","50%"),
+                  plotOutput("rob"),
+                  plotOutput("assault")))
+
       # hover not working, need to fix this
-      fluidRow(column(width = 3, verbatimTextOutput("hover_info")))
+      #fluidRow(column(width = 3, verbatimTextOutput("hover_info")))
+
     )
   )
 )
 
 server <- function(input, output) {
-  
-  
-  output$map <- renderLeaflet({
-    leaflet() %>% 
-      addProviderTiles(providers$Esri.WorldGrayCanvas) %>% 
-      fitBounds(~min(data_clean$lon), ~min(data_clean$lat), ~max(data_clean$lon), ~max(data_clean$lon))
-  })
-  
-  output$table <- renderDataTable(data %>% filter(year == input$year) %>% 
-                                select(department_name, total_pop, input$crime) %>% 
-                                mutate_if(is.numeric, round, 0) %>% 
-                                #rename_if(input$crime == "violent_per_100k", 
-                                 # "TOTAL CRIME (per capita)" = input$crime)
-                                #} else if(input$crime == "homs_per_100k") {
-                                #  "HOMICIDES (per capita)" == input$crime
-                                #} else if (input$crime == "rape_per_100k") {
-                                 # "RAPE (per capita)" == input$crime
-                                #} else if (input$crime == "rob_per_100k") {
-                                #  "ROBBERY (per capita)" == input$crime
-                                #} else {"AGGRAVATED ASSAULT (per capita)" == input$crime}
-                                #%>% 
-                                rename("CITY" = department_name, 
-                                       "POPULATION" = total_pop,
-                                       "RATE" = input$crime), #%>% 
-                                #,
-                                       #"RATE (per capita)" = input$crime) #%>%
-                                #arrange(desc("RATE (per capita)"))#,
-                                       #"TOTAL VIOLENT CRIME (per capita)" = violent_per_100k,
-                                       #"HOMICIDE (per capita)" = homs_per_100k, 
-                                       #"RAPE (per capita)" = rape_per_100k, 
-                                       #"ROBBERY (per capita)" = rob_per_100k, 
-                                       #"AGGRAVATED ASSAULT (per capita)" = agg_ass_per_100k)# %>% 
-                                
-                                options = list(order = list(3, 'desc')))
-  output$hom <- renderPlot(data %>% filter(department_name == input$city) %>% 
-      ggplot(aes(x = year, y = homs_per_100k)) + geom_line(color = "#0D9DA3") + 
+
+  #output$map <- renderLeaflet({
+    #leaflet() %>%
+     #addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
+     #fitBounds(~min(data_clean$lon), ~min(data_clean$lat), ~max(data_clean$lon), ~max(data_clean$lon))
+  #})
+
+  # interactive title
+  output$year_caption <- renderText({paste(input$crime, "(per capita),", input$year)})
+
+  # map plot
+  output$map <- renderPlot(data %>% filter(department_name == input$city) %>%
+                             ggplot(aes(x = year, y = rape_per_100k)) + geom_line(color = "#0D9DA3") +
+                             labs(x = "Year", y = "Rape (per capita)", title = "RAPE") +
+                             theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                                   panel.background = element_blank(), axis.line = element_line(colour = "black"),
+                                   aspect.ratio=1))
+  # rank table plot
+  output$table <- renderDataTable(data %>% filter(year == input$year) %>%
+                                    rename("CITY" = department_name,
+                                           "POPULATION" = total_pop,
+                                           "TOTAL VIOLENT CRIME" = violent_per_100k,
+                                           "HOMICIDES" = homs_per_100k,
+                                           "RAPE" = rape_per_100k,
+                                           "ROBBERIES" = rob_per_100k,
+                                           "AGGRAVATED ASSAULTS" = agg_ass_per_100k
+                                    ) %>%
+                                    select("CITY", "POPULATION", input$crime) %>%
+                                    mutate_if(is.numeric, round, 0)
+  )
+  # homicides over time plot
+  output$hom <- renderPlot(data %>% filter(department_name == input$city) %>%
+      ggplot(aes(x = year, y = homs_per_100k)) + geom_line(color = "#0D9DA3") +
       labs(x = "Year", y = "Homicides (per capita)", title = "HOMICIDE") +
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             panel.background = element_blank(), axis.line = element_line(colour = "black"),
             aspect.ratio=1)
   )
   # hover not working, fix this
-  output$hom_hover <- renderPrint({cat("Year")
-    str(input$plot_hover)})
-  
+  #output$hom_hover <- renderPrint({cat("Year")
+   # str(input$plot_hover)})
+
+  # rape over time plot
   output$rape <- renderPlot(
-    data %>% filter(department_name == input$city) %>% 
-    ggplot(aes(x = year, y = rape_per_100k)) + geom_line(color = "#0D9DA3") + 
+    data %>% filter(department_name == input$city) %>%
+    ggplot(aes(x = year, y = rape_per_100k)) + geom_line(color = "#0D9DA3") +
     labs(x = "Year", y = "Rape (per capita)", title = "RAPE") +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           panel.background = element_blank(), axis.line = element_line(colour = "black"),
           aspect.ratio=1)
   )
-  
-  output$rob <- renderPlot(data %>% filter(department_name == input$city) %>% 
-    ggplot(aes(x = year, y = rob_per_100k)) + geom_line(color = "#0D9DA3") + 
+  # robberies over time plot
+  output$rob <- renderPlot(data %>% filter(department_name == input$city) %>%
+    ggplot(aes(x = year, y = rob_per_100k)) + geom_line(color = "#0D9DA3") +
     labs(x = "Year", y = "Robberies (per capita)", title = "ROBBERY") +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           panel.background = element_blank(), axis.line = element_line(colour = "black"),
           aspect.ratio=1)
   )
-  
-  output$assault <- renderPlot(data %>% filter(department_name == input$city) %>% 
-    ggplot(aes(x = year, y = agg_ass_per_100k)) + geom_line(color = "#0D9DA3") + 
-    labs(x = "Year", y = "Aggravated Assault (per capita)", 
+  # assaults over time plot
+  output$assault <- renderPlot(data %>% filter(department_name == input$city) %>%
+    ggplot(aes(x = year, y = agg_ass_per_100k)) + geom_line(color = "#0D9DA3") +
+    labs(x = "Year", y = "Aggravated Assault (per capita)",
          title = "AGGRAVATED ASSAULT") +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           panel.background = element_blank(), axis.line = element_line(colour = "black"),
           aspect.ratio=1)
   )
-  
+
 }
 
 shinyApp(ui = ui, server = server)
