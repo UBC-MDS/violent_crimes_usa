@@ -16,7 +16,7 @@ ui <- fluidPage(
       tags$style(".well {background-color:rgba(13, 160, 165, 0.15);}"),
       tags$style(HTML("hr {border-top: 1px solid #0D9DA3; margin-top: 300px; margin-bottom: 20px;}")),
       
-      helpText("Compare violent crime rates (per capita) of major US cities:"),
+      helpText("Compare crime rates (per capita) of major US cities:"),
       
       # year input
       selectInput("year", "SELECT YEAR", 
@@ -34,7 +34,7 @@ ui <- fluidPage(
       
       # break line
       hr(),
-      helpText("Graph violent crime trends of a specific city over time:"),
+      helpText("Graph crime trends of a specific city over time:"),
       
       # city selector
       selectInput("city", "SELECT A CITY", 
