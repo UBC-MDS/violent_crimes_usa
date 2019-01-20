@@ -6,7 +6,7 @@ Contributors: Alycia Butterworth ([alyciakb](https://github.com/alyciakb)), Geor
 
 ##### Side option panel
 
-![side_panel]("../img/side_panel.png")
+![side_panel](../img/side_panel.png)
 
 We implemented a slightly transparent sidebar panel. We rendered it with a teal background to distinguish it from the rest of the user interface. Note that this colour matches the colour of the lines in the time series plots for cohesion. The user should be able to select a single year to visualize the data on the map panel, as well as with the rank table. Below the year, the user can select one type or multiple types of crime to explore using the four check-boxes. If they select all four, the table will include the total violent crime rate (per capita), along with the four separate crime rates (per capita). After a large separation on the sidebar, we include an option for the user to select a particular city to generate time series plot with.
 
@@ -18,13 +18,13 @@ The map panel displays the geographical distribution of crime incidents across m
 
 ##### Rank table panel
 
-![rank_table]("../img/rank_table.png")
+![rank_table](../img/rank_table.png)
 
 The rank table displays the cities in alphabetical order by default. As the user select a particular year, the table can display information population for the year chosen (or for the most recent year if “Average Over Time” is selected); the per capita crime rates of the crimes the user has selected. The user can reorder it by whichever column they would like by clicking the column name. The user can also use the search bar in the upper right of the table to search for a specific city or value.
 
 ##### Time series graphs
 
-![time_series](",,/img/time_series.png")
+![time_series](,,/img/time_series.png)
 
 The four time series plots below the map and rank table panels can show the user how crime rates of a city has changed over time. The four plots will corresponding to four different violent crimes respectively. Users can potentially examine these four charts to not only see the contemporary crime rates for a city, but to also explore if the crime rates of a city were decreasing or increasing in a past time period.
 
