@@ -24,7 +24,7 @@ The rank table displays the cities in alphabetical order by default. As the user
 
 ##### Time series graphs
 
-![time_series](,,/img/time_series.png)
+![time_series](../img/time_series.png)
 
 The four time series plots below the map and rank table panels can show the user how crime rates of a city has changed over time. The four plots will corresponding to four different violent crimes respectively. Users can potentially examine these four charts to not only see the contemporary crime rates for a city, but to also explore if the crime rates of a city were decreasing or increasing in a past time period.
 
