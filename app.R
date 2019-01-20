@@ -3,13 +3,14 @@ library(tidyverse)
 library(DT)
 library(leaflet)
 library(htmltools)
+library(rsconnect)
 
 data <- read_csv("data/crime_clean.csv")
 
 ui <- fluidPage(
 
   tags$style("label{font-family: Open Sans;}"),
-  titlePanel("How Crime Rates Compare Across the US"),
+  titlePanel("Violent Crimes in the United States (1975-2014)"),
 
   sidebarLayout(
     sidebarPanel(
@@ -18,7 +19,7 @@ ui <- fluidPage(
       tags$style(".well {background-color:rgba(13, 160, 165, 0.15);}"),
       tags$style(HTML("hr {border-top: 1px solid #0D9DA3; margin-top: 250px; margin-bottom: 20px;}")),
 
-      helpText("Compare crime rates (per capita) of major US cities:"),
+      helpText("Compare crime rates (per 100k population) of major US cities:"),
 
       # year input
       selectInput("year", "SELECT YEAR",
@@ -32,7 +33,7 @@ ui <- fluidPage(
                            "Rape" = "RAPE",
                            "Robbery" = "ROBBERY",
                            "Aggravated Assault" = "AGGRAVATED ASSAULT"),
-                         selected = "HOMICIDE"),
+                         selected = "ROBBERY"),
 
       # break line
       hr(),
@@ -51,7 +52,7 @@ ui <- fluidPage(
       titlePanel(title = list(textOutput("caption"))),
 
       tags$div(
-        style="margin-bottom:50px;",
+        style="margin-bottom:20px;",
 
       # create tabs
       tabsetPanel(type = "tabs",
@@ -61,6 +62,7 @@ ui <- fluidPage(
 
       # display 4 city violent crime plots
       fluidRow(
+        h4(textOutput("plot_title"), style = "margin-bottom:20px"),
         splitLayout(cellWidths = c("50%","50%"),
                     plotOutput("hom"),
                     plotOutput("rape")),
@@ -75,8 +77,9 @@ ui <- fluidPage(
 
 server <- function(input, output) {
 
-  # interactive title
+  #interactive title
   #output$caption <- renderText({paste(input$crime, "(per capita),", input$year)})
+  output$plot_title <- renderText(paste("Crime rates over time for", input$city))
 
   # map plot
   output$map <- renderLeaflet({
