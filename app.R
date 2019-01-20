@@ -52,7 +52,7 @@ ui <- fluidPage(
       titlePanel(title = list(textOutput("caption"))),
 
       tags$div(
-        style="margin-bottom:50px;",
+        style="margin-bottom:20px;",
 
       # create tabs
       tabsetPanel(type = "tabs",
@@ -62,6 +62,7 @@ ui <- fluidPage(
 
       # display 4 city violent crime plots
       fluidRow(
+        h4(textOutput("plot_title"), style = "margin-bottom:20px"),
         splitLayout(cellWidths = c("50%","50%"),
                     plotOutput("hom"),
                     plotOutput("rape")),
@@ -78,6 +79,7 @@ server <- function(input, output) {
 
   #interactive title
   #output$caption <- renderText({paste(input$crime, "(per capita),", input$year)})
+  output$plot_title <- renderText(paste("Crime rates over time for", input$city))
 
   # map plot
   output$map <- renderLeaflet({
