@@ -6,6 +6,15 @@ Contributors: Alycia Butterworth ([alyciakb](https://github.com/alyciakb)), Geor
 
 **[Shiny App - First Rendering](https://georgejjw.shinyapps.io/violent_crimes_usa/)**
 
+## Feedback for Other Groups
+
+- [Feedback for Paul and Mili](https://github.com/UBC-MDS/wine_viz_mkpv/issues/17)
+- [Feedback for Birindir and Sylvia](https://github.com/UBC-MDS/Crime_Busters/issues/30)
+
+
+-------------------------------------------------------
+## PROJECT PROPOSAL
+
 ## Overview
 
 US government agencies typically do not publish crime data in a format that is readily accessible to the general public. To address this issue, we propose developing a free and open-source tool that can empower the public to visually explore crime rates and crime trends of major US cities. Our project aims to display the geographical distribution of four types of violent crimes: homicide, rape, robbery, and aggravated assault. We will also encourage users to explore the crime trends, by allowing them to select a particular city and examine how crime rates for that city have changed over time.
