@@ -4,27 +4,28 @@ library(DT)
 library(leaflet)
 library(htmltools)
 library(rsconnect)
+library(shinydashboard)
 
 data <- read_csv("data/crime_clean.csv")
 
-ui <- fluidPage(
+ui <- dashboardPage(
 
-  tags$style("label{font-family: Open Sans;}"),
-  titlePanel("Violent Crimes in the United States (1975-2014)"),
+  #tags$style("label{font-family: Open Sans;}"),
+  #titlePanel("Violent Crimes in the United States (1975-2014)"),
+  dashboardHeader(title = "US Violent Crime"),
+  
+  dashboardSidebar(
+    sidebarMenu(
 
-  sidebarLayout(
-    sidebarPanel(
-
-      width = 2,
-      tags$style(".well {background-color:rgba(13, 160, 165, 0.15);}"),
-      tags$style(HTML("hr {border-top: 1px solid #0D9DA3; margin-top: 250px; margin-bottom: 20px;}")),
+      #tags$style(".well {background-color:rgba(13, 160, 165, 0.15);}"),
+      #tags$style(HTML("hr {border-top: 1px solid #0D9DA3; margin-top: 250px; margin-bottom: 20px;}")),
 
       helpText("Compare crime rates (per 100k population) of major US cities:"),
 
       # year input
       selectInput("year", "SELECT YEAR",
                   c("Average Over Time" = "1975-2014",
-                    sort(unique(data$year), decreasing = TRUE)),
+                  sort(unique(data$year), decreasing = TRUE)),
                   selectize = FALSE),
 
       # crimes input
@@ -43,10 +44,10 @@ ui <- fluidPage(
       selectInput("city", "SELECT A CITY",
                   c("All Cities", unique(data$department_name)), selectize = FALSE)
 
+    )
+  ),
 
-    ),
-
-    mainPanel(
+    dashboardBody(
 
       # title the map/table
       titlePanel(title = list(textOutput("caption"))),
@@ -70,8 +71,6 @@ ui <- fluidPage(
                     plotOutput("rob"),
                     plotOutput("assault"))
       )
-
-    )
   )
 )
 
