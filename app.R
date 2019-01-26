@@ -87,37 +87,34 @@ server <- function(input, output) {
   output$subtitle <- renderText("Compare Crime Rates (per 100k population)  of Major US Cities")
   output$selected_year <- renderText({paste("|", input$year)})
   output$selected_crimes <- renderText({paste( "|", input$crime)})
-
-  # define marker colours
-  getColour <- function(n) {
-    if(n <= ) {
-      "green"
-    } else if (n <= 100) {
-      "orange"
-    } else {
-      "red"
-    }
-  }
-
+  
   # map plot
   output$map <- renderLeaflet({
     validate(need((is.null(input$crime) == FALSE),
                   '\n\n\n     TO VIEW THE U.S. CRIME MAP, PLEASE SELECT A CRIME.'))
     leaflet(data_map()) %>%
       addProviderTiles(providers$Esri.WorldGrayCanvas, options = providerTileOptions(minZoom = 4)) %>%
-      setMaxBounds(lng1 = -127.807, lat1 = 21.268, lng2 = -63.588, lat2 = 51.3855) %>%
+      setMaxBounds(lng1 = -130.807, lat1 = 21.268, lng2 = -59.588, lat2 = 51.3855) %>%
       setView(lng = -98.58, lat = 38, zoom = 4) %>%
       addCircleMarkers(data = data_map(),
-                       radius = ~ 12,
-                       color = ~getColour(COUNT),
+                       radius = ~ 9,
+                       color = ~ if_else(COUNT <= 20, "#20639b", 
+                                 if_else(COUNT <= 100, "#3caea3", 
+                                 if_else(COUNT <= 1000, "orange", "#d7191c"))),
                        label = ~ paste(sep = "", CITY, ": ", COUNT, " incidents"),
+                       labelOptions = labelOptions(style = list(
+                         "font-size" = "12px"
+                       )),
                        stroke = FALSE,
-                       fillOpacity = 0.6)
+                       fillOpacity = 0.7) %>% 
                        #clusterOptions = markerClusterOptions(
                          #spiderfyOnMaxZoom = FALSE,
                          #showCoverageOnHover = FALSE,
                          #zoomToBoundsOnClick = FALSE,
                          #singleMarkerMode = TRUE))
+     addLegend(title = "Crime rates",
+               colors = c("#d7101c", "orange", "#3caea3", "#20639b"),
+               labels = c("> 1000", "100 - 1000", "20 - 100", "0 - 20"))
     })
 
   # add total crime to table if user selects all crimes
@@ -183,7 +180,6 @@ server <- function(input, output) {
       select(c(one_of(input$crime))) %>%
       rowSums()
     #data_edit <- data_edit[rep(row.names(data_edit), data_edit$COUNT), ]
-    print(data_edit)
     return(data_edit)
   })
 
