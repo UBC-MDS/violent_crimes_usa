@@ -83,7 +83,7 @@ server <- function(input, output) {
   # map plot
   output$map <- renderLeaflet({
     validate(need((is.null(input$crime) == FALSE), 
-                  'TO VIEW THE U.S. CRIME MAP, PLEASE SELECT A CRIME.'))
+                  '\n\n\n     TO VIEW THE U.S. CRIME MAP, PLEASE SELECT A CRIME.'))
     leaflet() %>%
       addProviderTiles(providers$Esri.WorldGrayCanvas) %>% 
       setView(lng = -98.58, lat = 38, zoom = 4) %>% 
