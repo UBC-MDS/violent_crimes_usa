@@ -24,10 +24,9 @@ ui <- dashboardPage(skin = "black",
       helpText("Compare crime rates (per 100k population) of major US cities:"),
 
       # year input
-      selectInput("year", "SELECT YEAR",
+      selectizeInput("year", "SELECT YEAR",
                   c("Average Over Time" = "1975-2014",
-                  sort(unique(data$year), decreasing = TRUE)),
-                  selectize = TRUE),
+                  sort(unique(data$year), decreasing = TRUE))),
 
       # crimes input
       checkboxGroupInput("crime", "SELECT CRIME(S)",
