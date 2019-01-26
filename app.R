@@ -82,13 +82,14 @@ server <- function(input, output) {
 
   # map plot
   output$map <- renderLeaflet({
-    leaflet() %>%
+    leaflet(data_map()) %>%
       addProviderTiles(providers$Esri.WorldGrayCanvas) %>% 
       setView(lng = -98.58, lat = 38, zoom = 4) %>% 
       addCircleMarkers(data = data_map(), 
-                       radius = ~ sqrt(COUNT) * 0.8, 
+                       radius = ~ 2, 
                        color = "orange",
-                       label = ~ paste(sep = "", CITY, ": ", COUNT, " incidents"))
+                       label = ~ paste(sep = "", CITY, ": ", COUNT, " incidents"),
+                       clusterOptions = markerClusterOptions())
   })
 
   # add total crime to table if user selects all crimes
