@@ -93,7 +93,8 @@ server <- function(input, output) {
     validate(need((is.null(input$crime) == FALSE),
                   '\n\n\n     TO VIEW THE U.S. CRIME MAP, PLEASE SELECT A CRIME.'))
     leaflet(data_map()) %>%
-      addProviderTiles(providers$Esri.WorldGrayCanvas, options = providerTileOptions(minZoom = 4)) %>%
+      addProviderTiles(providers$Esri.WorldGrayCanvas, 
+                       options = providerTileOptions(minZoom = 4, maxZoom = 9)) %>%
       setMaxBounds(lng1 = -130.807, lat1 = 21.268, lng2 = -59.588, lat2 = 51.3855) %>%
       setView(lng = -98.58, lat = 38, zoom = 4) %>%
       addCircleMarkers(data = data_map(),
