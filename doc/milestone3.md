@@ -5,7 +5,7 @@ Contributors: Alycia Butterworth ([alyciakb](https://github.com/alyciakb)), Geor
 
 ## Reflection on our Feedback Session
 
-The feedback session we had with two peer groups proved very useful. Our peers were able to use and navigate the app the way we hoped, with no apparent issues, and we able to suggest ideas to improve the design.  There were many comments that we received that were feasible to change within our time frame:
+The feedback session we had with two peer groups proved very useful. Our peers were able to use and navigate the app the way we hoped, with no apparent issues, and we were able to suggest ideas to improve the design. We were able to incorporate a number of feedback into our application within this week's timeframe.
 
 **CHANGE 1:**
 
@@ -19,7 +19,7 @@ Feedback Received:
 
 Changes Made:
 
-We combined the four line plots into one line plot with four lines, one for each crime. We added a hover feature, so if the user hovers over a point in any line it will tell them the year, crime, and number of incidents per capita.
+We combined the four line plots into one time-series plot with four lines, one for each type of crime. We added a hover feature, so if the users hover over a point on any line it will tell them the year, crime, and number of crime incidents per capita.
 
 **CHANGE 2:**
 
@@ -39,7 +39,7 @@ Feedback Received:
 
 Changes Made:
 
-Added an error statement to the map, plot, and table, so if the user deselects all crime types, it informs them that they must select a crime in order to view the map and plot.
+Added an error statement to each of the map, plot, and table section, so if the users unselect all crime types, the app should inform the users that they must select a crime in order to view the map and plot.
 
 **CHANGE 4:**
 
@@ -49,7 +49,7 @@ Feedback Received:
 
 Changes Made:
 
-We changed the dots on the map from from circle size to colour to show magnitude.
+We changed the map markers from using size and shape to encode information to simply using colours to encode information.
 
 ---------------------
 
@@ -61,9 +61,9 @@ Other feedback we received but didn’t implement due to time or technical diffi
 
 -----------------------
 
-Being a fly-on-the-wall allowed us to see how users would naturally interact with our app and observe how they view what we’ve created. It’s very important to see how users interact with the app to be able to make it more useful and user-friendly, this exercise proved the most valuable in our feedback session. It allowed us to see and hear the confusion when reading the four line plots, which led to the biggest design change that we made in our app. 
+Being a fly-on-the-wall allowed us to see how users would naturally interact with our app and observe how they view what we’ve created. It’s very important to see how users interact with the app to be able to make it more intuitive and user-friendly. This exercise proved to be the most valuable segment in our feedback session. It allowed us to see and hear the confusion when reading the four line plots, which led to the biggest design change that we made in our app. 
 
-The feedback session gave us input on what potential app users liked and didn’t like about our design choices, as well as showed us how users may “break” (cause an error) in the app. It allowed us to make changes that we think led to a better and more user-friendly app design.
+The feedback session gave us input on what potential app users liked and didn’t like about our design choices, as well as showed us how users may “break” (cause an error) in the app. It allowed us to make changes that should lead to a better and more user-friendly app design.
 
 ## Reflection on our App Changes
 
