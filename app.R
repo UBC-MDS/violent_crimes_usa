@@ -11,7 +11,7 @@ data <- read_csv("data/crime_clean.csv")
 
 ui <- dashboardPage(skin = "black",
 
-  dashboardHeader(),
+  dashboardHeader(title = "US Violent Crime"),
 
   dashboardSidebar(
     sidebarMenu(
@@ -117,7 +117,7 @@ server <- function(input, output) {
                          #singleMarkerMode = TRUE))
      addLegend(title = "Crime rates",
                colors = c("#d7101c", "orange", "#3caea3", "#20639b"),
-               labels = c("> 1000", "100 - 1000", "20 - 100", "0 - 20"))
+               labels = c("> 1000", "100 - 1000", "20 - 100", "< 20"))
     })
 
   # add total crime to table if user selects all crimes
@@ -215,21 +215,31 @@ server <- function(input, output) {
   })
 
   lineplot_edit <- reactive ({
-    plot <- city_choice() %>% ggplot(aes(text = paste("(incidents per capita)"))) +
-      labs(x = "YEAR", y = "# OF INCIDENTS (per 100k population)") +
+    plot <- city_choice() %>% 
+      ggplot(aes(x = year, text = paste("(incidents per capita)"))) +
+      labs(x = "YEAR", y = "# OF INCIDENTS (per 100k population)", color = "Crime types") +
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             panel.background = element_blank(), axis.line = element_line(colour = "black"))
     if("HOMICIDE"%in%input$crime) {
-      plot <- plot + geom_line(aes(year, HOMICIDE), colour = "#bf68f6") }
+      plot <- plot + geom_line(aes(y = HOMICIDE, colour = "Homicide")) }
     if("RAPE"%in%input$crime) {
-      plot <- plot + geom_line(aes(year,RAPE), colour = "#96cd39") }
+      plot <- plot + geom_line(aes(y = RAPE, colour = "Rape")) }
     if("ROBBERY"%in%input$crime) {
-      plot <- plot + geom_line(aes(year, ROBBERY), colour = "#67bac6") }
+      plot <- plot + geom_line(aes(y = ROBBERY, colour = "Robbery")) }
     if("AGGRAVATED ASSAULT"%in%input$crime) {
-      plot <- plot + geom_line(aes(year, ASSAULT), colour = "#ffaaa5") }
+      plot <- plot + geom_line(aes(y = ASSAULT, colour = "Assault")) }
     else{
       plot }
-
+    
+    plot + scale_color_manual("", breaks = c("Homicide", 
+                                             "Rape", 
+                                             "Robbery", 
+                                             "Assault"),
+                                  values = c("Homicide" = "#bf68f6", 
+                                             "Rape" = "#96cd39", 
+                                             "Robbery" = "#67bac6", 
+                                             "Assault" = "#ffaaa5"))
+    
     return(ggplotly(plot, tooltip = c("x", "y", "text")))
   })
 
@@ -239,7 +249,7 @@ server <- function(input, output) {
              'TO VIEW A PLOT OF CRIME RATES OVER TIME, PLEASE SELECT A CRIME.'))
     validate(need((input$city != ""),
                   'TO VIEW A PLOT OF CRIME RATES OVER TIME, PLEASE SELECT A CITY.'))
-  lineplot_edit()
+  lineplot_edit() %>% layout(legend = list(x = 0.8, y = 0.95, font = list(size = 14)))
   })
 
 
