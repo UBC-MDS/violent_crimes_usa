@@ -11,7 +11,7 @@ data <- read_csv("data/crime_clean.csv")
 
 ui <- dashboardPage(skin = "black",
 
-  dashboardHeader(title = "US Violent Crime"),
+  dashboardHeader(),
 
   dashboardSidebar(
     sidebarMenu(
@@ -64,10 +64,12 @@ ui <- dashboardPage(skin = "black",
 
       # display selected crime(s)
       h5(textOutput("selected_crimes")),
+      
+      
 
       # create tabs
       tabsetPanel(type = "tabs",
-        tabPanel("Map", leafletOutput("map")),
+        tabPanel("Map", leafletOutput("map"), height = "20vh"),
         tabPanel("Rank Table", dataTableOutput("table"))
       ),
 
@@ -84,7 +86,7 @@ server <- function(input, output) {
 
   #interactive titles
   output$plot_title <- renderText(paste("Crime Rates Over Time for", input$city, ":"))
-  output$subtitle <- renderText("Compare Crime Rates (per 100k population)  of Major US Cities")
+  output$subtitle <- renderText("Compare Crime Rates (per 100k population) of Major US Cities")
   output$selected_year <- renderText({paste("|", input$year)})
   output$selected_crimes <- renderText({paste( "|", input$crime)})
   
@@ -94,7 +96,7 @@ server <- function(input, output) {
                   '\n\n\n     TO VIEW THE U.S. CRIME MAP, PLEASE SELECT A CRIME.'))
     leaflet(data_map()) %>%
       addProviderTiles(providers$Esri.WorldGrayCanvas, 
-                       options = providerTileOptions(minZoom = 4, maxZoom = 9)) %>%
+                       options = providerTileOptions(minZoom = 4, maxZoom = 12)) %>%
       setMaxBounds(lng1 = -130.807, lat1 = 21.268, lng2 = -59.588, lat2 = 51.3855) %>%
       setView(lng = -98.58, lat = 38, zoom = 4) %>%
       addCircleMarkers(data = data_map(),
@@ -107,7 +109,7 @@ server <- function(input, output) {
                          "font-size" = "12px"
                        )),
                        stroke = FALSE,
-                       fillOpacity = 0.7) %>% 
+                       fillOpacity = 0.6) %>% 
                        #clusterOptions = markerClusterOptions(
                          #spiderfyOnMaxZoom = FALSE,
                          #showCoverageOnHover = FALSE,

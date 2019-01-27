@@ -9,7 +9,7 @@ This is a exploratory data analysis to explore the [Marshall Violent Crime](http
 # load libraries
 suppressPackageStartupMessages(library(tidyverse))
 library(ggmap)
-register_google(key = "AIzaSyDJMwpOAL6NbVPxIx1k-yu53fuDS7NybpA")
+register_google(key = "")
 ```
 
 ```{r}
@@ -79,15 +79,17 @@ There are 53 annual reports with less than 12 months reported.
 # tentative attempt at removing problematic entries
 # at worst case, we are removing all incomplete annual reports
 # at worst case, we are removing all potentially problematic city names
-(crime_clean <- crime %>% 
+crime_clean <- crime %>% 
   filter(months_reported == 12, !department_name %in% bad_names) %>% 
-  separate(department_name, into = c("city", "state"), sep = ",")) %>% 
-  mutate(city = str_replace(city, "Charlotte-Mecklenburg", "Charlotte")) %>% 
+  separate(department_name, into = c("city", "state"), sep = ",") %>% 
+  mutate(city = str_replace(city, "Charlotte-Mecklenburg", "Charlotte")) %>%
+  mutate(city = str_replace(city, "New York City", "New York")) %>%  
   left_join(latlon, by = c("city" = "locality")) %>%
   separate(address, into = c("cityname", "statecode", "country"), sep = ",") %>% 
   mutate(state = str_to_upper(statecode)) %>% 
   unite("department_name", c(city, state), sep = ",") %>% 
-  select(department_name, year, total_pop, violent_per_100k, homs_per_100k, rape_per_100k, rob_per_100k, agg_ass_per_100k, lon, lat) %>% 
+  select(department_name, year, total_pop, violent_per_100k, homs_per_100k, rape_per_100k, rob_per_100k, agg_ass_per_100k, lon, lat) %>%
+  filter(!department_name %in% overlaps) %>% 
   write_csv("../data/crime_clean.csv")
 ```
 
@@ -96,15 +98,37 @@ At worst case, we are left with 2,348 seemingly valid entries.
 The following commands are for fetching lat/lon for each city names using Google's API.
 
 ```{r}
+# find overlapping cities
+crime_clean %>% 
+  select(department_name, lat, lon) %>% 
+  unique() %>% 
+  arrange(lon)
+```
+
+```{r}
+# identify cities with major overlaps to other cities
+# consider dropping these cities
+overlaps <- c("Fort Worth, TX", 
+              "Arlington, TX", 
+              "Mesa, AZ", 
+              "Long Beach, CA", 
+              "Oakland, CA",
+              "Aurora, CO", 
+              "Newark, NJ",
+              "Baltimore, MD")
+```
+
+
+```{r}
 # add lat/lon coordinates to cities
-#(city_latlon <- crime_clean$department_name %>% 
-  #unique() %>% 
-  #geocode(output = "more", source = "google"))
+(city_latlon <- crime_clean$department_name %>% 
+  unique() %>% 
+  geocode(output = "more", source = "google"))
 ```
 
 ```{r}
 # save output
-#city_latlon %>%
-  #write_csv(path = "../data/city_latlon.csv")
+city_latlon %>%
+  write_csv(path = "../data/city_latlon.csv")
 ```
 
