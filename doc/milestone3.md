@@ -41,6 +41,16 @@ Changes Made:
 
 Added an error statement to the map, plot, and table, so if the user deselects all crime types, it informs them that they must select a crime in order to view the map and plot.
 
+**CHANGE 4:**
+
+Feedback Received:
+
+*"Maybe use color scale to show magnitude in the map instead of of circle size"*
+
+Changes Made:
+
+We changed the dots on the map from from circle size to colour to show magnitude.
+
 ---------------------
 
 Other feedback we received but didn’t implement due to time or technical difficulties included: 
@@ -57,4 +67,8 @@ The feedback session gave us input on what potential app users liked and didn’
 
 ## Reflection on our App Changes
 
+The biggest change in our app from our original design is moving from four line charts to one. We found this significantly improves readability. We also chose to show crime rates on the map by coloured dots only, not by dot size. This helps keep the dots from overlapping. 
 
+Our wishlist item is still to make the map and table interactive with the line chart, so if you click on a city on the map/table the line chart will automatically update to show you that city's crime rates over time.
+
+Overall, I believe we were able to impleemnt many of the changes we wanted to between milestone 2 and milestone 3, along with others that were suggested by our peer feedback.
