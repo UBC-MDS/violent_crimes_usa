@@ -112,11 +112,6 @@ server <- function(input, output) {
                        )),
                        stroke = FALSE,
                        fillOpacity = 0.6) %>% 
-                       #clusterOptions = markerClusterOptions(
-                         #spiderfyOnMaxZoom = FALSE,
-                         #showCoverageOnHover = FALSE,
-                         #zoomToBoundsOnClick = FALSE,
-                         #singleMarkerMode = TRUE))
      addLegend(title = "Crime rates",
                colors = c("#d7101c", "orange", "#3caea3", "#20639b"),
                labels = c("> 1000", "100 - 1000", "20 - 100", "< 20"))
