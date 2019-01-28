@@ -66,8 +66,6 @@ ui <- dashboardPage(skin = "black",
 
       # display selected crime(s)
       h4(textOutput("selected_crimes")),
-      
-      
 
       # create tabs
       tabsetPanel(type = "tabs",
@@ -84,7 +82,7 @@ ui <- dashboardPage(skin = "black",
   )
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
 
   #interactive titles
   output$plot_title <- renderText(paste("Crime Rates Over Time for", input$city, ":"))
@@ -110,12 +108,19 @@ server <- function(input, output) {
                        labelOptions = labelOptions(style = list(
                          "font-size" = "12px"
                        )),
+                       layerId = ~ CITY,
                        stroke = FALSE,
                        fillOpacity = 0.6) %>% 
      addLegend(title = "Crime rates",
                colors = c("#d7101c", "orange", "#3caea3", "#20639b"),
                labels = c("> 1000", "100 - 1000", "20 - 100", "< 20"))
     })
+  
+  # add event listener to map marker
+  observe({
+    click <- input$map_marker_click
+    updateSelectizeInput(session, "city", selected = click$id)
+  })
 
   # add total crime to table if user selects all crimes
   total_crime <- reactive({
