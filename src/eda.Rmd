@@ -115,7 +115,8 @@ overlaps <- c("Fort Worth, TX",
               "Oakland, CA",
               "Aurora, CO", 
               "Newark, NJ",
-              "Baltimore, MD")
+              "Baltimore, MD",
+              "Honolulu, HI")
 ```
 
 
