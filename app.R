@@ -11,12 +11,14 @@ data <- read_csv("data/crime_clean.csv")
 
 ui <- dashboardPage(skin = "black",
 
-  dashboardHeader(title = "US Violent Crime"),
+  dashboardHeader(title = "US Violent Crime", disable = TRUE),
 
   dashboardSidebar(
     sidebarMenu(
 
-      tags$style(HTML("hr {border-top: 0px solid #0D9DA3; margin-top: 10px;}")),
+      tags$style(HTML(
+        "hr {border-top: 0px solid #0D9DA3; margin-top: 0px;}
+         .skin-black .main-sidebar {padding-top: 0px;}")),
 
       # add whitespace
       hr(),
@@ -57,19 +59,19 @@ ui <- dashboardPage(skin = "black",
       ),
 
       # title the map/table
-      h3(textOutput("subtitle")),
+      h2(textOutput("subtitle")),
 
       # display selected year
-      h5(textOutput("selected_year")),
+      h4(textOutput("selected_year")),
 
       # display selected crime(s)
-      h5(textOutput("selected_crimes")),
+      h4(textOutput("selected_crimes")),
       
       
 
       # create tabs
       tabsetPanel(type = "tabs",
-        tabPanel("Map", leafletOutput("map"), height = "20vh"),
+        tabPanel("Map", leafletOutput("map", height = 320)),
         tabPanel("Rank Table", dataTableOutput("table"))
       ),
 
@@ -96,7 +98,7 @@ server <- function(input, output) {
                   '\n\n\n     TO VIEW THE U.S. CRIME MAP, PLEASE SELECT A CRIME.'))
     leaflet(data_map()) %>%
       addProviderTiles(providers$Esri.WorldGrayCanvas, 
-                       options = providerTileOptions(minZoom = 4, maxZoom = 12)) %>%
+                       options = providerTileOptions(minZoom = 4, maxZoom = 9)) %>%
       setMaxBounds(lng1 = -130.807, lat1 = 21.268, lng2 = -59.588, lat2 = 51.3855) %>%
       setView(lng = -98.58, lat = 38, zoom = 4) %>%
       addCircleMarkers(data = data_map(),
