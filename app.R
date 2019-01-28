@@ -112,11 +112,6 @@ server <- function(input, output) {
                        )),
                        stroke = FALSE,
                        fillOpacity = 0.6) %>% 
-                       #clusterOptions = markerClusterOptions(
-                         #spiderfyOnMaxZoom = FALSE,
-                         #showCoverageOnHover = FALSE,
-                         #zoomToBoundsOnClick = FALSE,
-                         #singleMarkerMode = TRUE))
      addLegend(title = "Crime rates",
                colors = c("#d7101c", "orange", "#3caea3", "#20639b"),
                labels = c("> 1000", "100 - 1000", "20 - 100", "< 20"))
@@ -222,14 +217,8 @@ server <- function(input, output) {
       labs(x = "YEAR", y = "# OF INCIDENTS (per 100k population)", color = "Crime types") +
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             panel.background = element_blank(), axis.line = element_line(colour = "black"))
-<<<<<<< HEAD
-    if("HOMICIDE"%in%input$crime) { 
-      plot <- plot + geom_line(aes(year, HOMICIDE), colour = "#bf68f6") +
-        scale_fill_manual(values="Homicide", guide="legend")}
-=======
     if("HOMICIDE"%in%input$crime) {
       plot <- plot + geom_line(aes(y = HOMICIDE, colour = "Homicide")) }
->>>>>>> master/master
     if("RAPE"%in%input$crime) {
       plot <- plot + geom_line(aes(y = RAPE, colour = "Rape")) }
     if("ROBBERY"%in%input$crime) {
