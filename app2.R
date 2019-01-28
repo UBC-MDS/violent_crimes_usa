@@ -4,29 +4,30 @@ library(DT)
 library(leaflet)
 library(htmltools)
 library(rsconnect)
-library(shinydashboard)
+library(shinythemes)
 library(plotly)
 
 data <- read_csv("data/crime_clean.csv")
 
-ui <- dashboardPage(skin = "black",
+ui <- fluidPage(theme = shinytheme("yeti"),
 
-  dashboardHeader(title = "US Violent Crime"),
+  #tags$style("label{font-family: Open Sans;}"),
+  titlePanel("Violent Crimes in the United States (1975-2014)"),
+  #dashboardHeader(title = "US Violent Crime"),
   
-  dashboardSidebar(
-    sidebarMenu(
+  sidebarLayout(
+    sidebarPanel(
 
-      tags$style(HTML("hr {border-top: 0px solid #0D9DA3; margin-top: 10px;}")),
+      #tags$style(".well {background-color:rgba(13, 160, 165, 0.15);}"),
+      #tags$style(HTML("hr {border-top: 1px solid #0D9DA3; margin-top: 250px; margin-bottom: 20px;}")),
 
-      # add whitespace
-      hr(),
-      
+      helpText("Compare crime rates (per 100k population) of major US cities:"),
+
       # year input
       selectizeInput("year", "SELECT YEAR",
                   c("Average Over Time" = "1975-2014",
                   sort(unique(data$year), decreasing = TRUE))),
 
-      
       # crimes input
       checkboxGroupInput("crime", "SELECT CRIME(S)",
                          c("Homicide" = "HOMICIDE",
@@ -35,58 +36,51 @@ ui <- dashboardPage(skin = "black",
                            "Aggravated Assault" = "AGGRAVATED ASSAULT"),
                          selected = "ROBBERY"),
 
+      # break line
+      hr(),
+      helpText("Graph crime trends of a specific city over time:"),
 
       # city selector
       selectizeInput("city", "SELECT CITY",
                   c("All Cities", unique(data$department_name)))
 
-    )
-  ),
+    ),
 
-    dashboardBody(
-      # change colours: 1&2: header background, 3: sidebar background, 4: main display background
-      tags$head(tags$style(HTML('
-        .skin-black .main-header .logo {background-color: #f2f4fb;}
-        .skin-black .main-header .navbar {background-color: #f2f4fb;}
-        .skin-black .main-sidebar {background-color: #5c5470;}
-        .content-wrapper, .right-side {background-color: #ffffff;}
-        '))),
-      
-      tags$div(
-        style="margin-bottom:20px;"
-      ),
+    mainPanel(
+      #tags$head(tags$style(HTML('
+       # .skin-black .main-header .logo {background-color: #f2f4fb;}
+        #.skin-black .main-header .navbar {background-color: #f2f4fb;}
+        #.skin-black .main-sidebar {background-color: #726a95;}
+        #.content-wrapper, .right-side {background-color: #ffffff;}
+        #'))),
 
       # title the map/table
-      h3(textOutput("subtitle")),
-      
-      # display selected year
-      h5(textOutput("selected_year")),
-      
-      # display selected crime(s)
-      h5(textOutput("selected_crimes")),
+      titlePanel(title = list(textOutput("caption"))),
+
+      tags$div(
+        style="margin-bottom:20px;",
 
       # create tabs
       tabsetPanel(type = "tabs",
         tabPanel("Map", leafletOutput("map")),
-        tabPanel("Rank Table", dataTableOutput("table"))
+        tabPanel("Rank Table", dataTableOutput("table")))
       ),
 
-      # display plot
+      # display violent crime plot
       fluidRow(
-        h3(textOutput("plot_title"), style = "margin-bottom:20px"),
-        plotlyOutput("lineplot"),
-        style='padding:20px;'
+        h4(textOutput("plot_title"), style = "margin-bottom:20px"),
+        plotlyOutput("lineplot")
       )
   )
 )
 
+)
+
 server <- function(input, output) {
 
-  #interactive titles
+  #interactive title
+  #output$caption <- renderText({paste(input$crime, "(per capita),", input$year)})
   output$plot_title <- renderText(paste("Crime Rates Over Time for", input$city, ":"))
-  output$subtitle <- renderText("Compare Crime Rates (per 100k population)  of Major US Cities")
-  output$selected_year <- renderText({paste("|", input$year)})
-  output$selected_crimes <- renderText({paste( "|", input$crime)})
 
   # map plot
   output$map <- renderLeaflet({
@@ -168,8 +162,7 @@ server <- function(input, output) {
 
   # rank table plot
   output$table <- renderDataTable(data_time_ave() %>% 
-      select(-c("lon", "lat")), 
-    rownames = ""
+    select(-c("lon", "lat"))
   )
 
   # select "All Cities"
@@ -196,20 +189,17 @@ server <- function(input, output) {
   
   lineplot_edit <- reactive ({
     plot <- city_choice() %>% ggplot(aes(text = paste("(incidents per capita)"))) +
-      labs(x = "YEAR", y = "# OF INCIDENTS (per 100k population)") +
+      labs(x = "YEAR", y = "CRIME RATE (per 100k population)") +
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
             panel.background = element_blank(), axis.line = element_line(colour = "black"))
     if("HOMICIDE"%in%input$crime) { 
-      plot <- plot + geom_line(aes(year, HOMICIDE), colour = "#bf68f6") +
-        scale_fill_manual(values="Homicide", guide="legend")}
+      plot <- plot + geom_line(aes(year, HOMICIDE), colour = "#bf68f6") }
     if("RAPE"%in%input$crime) {
       plot <- plot + geom_line(aes(year,RAPE), colour = "#96cd39") }
     if("ROBBERY"%in%input$crime) {
       plot <- plot + geom_line(aes(year, ROBBERY), colour = "#67bac6") }
     if("AGGRAVATED ASSAULT"%in%input$crime) {
       plot <- plot + geom_line(aes(year, ASSAULT), colour = "#ffaaa5") }
-    else{
-      plot }
   
     return(ggplotly(plot, tooltip = c("x", "y", "text")))
   })
