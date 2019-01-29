@@ -43,7 +43,7 @@ crime_clean <- crime %>%
   mutate(state = str_to_upper(statecode)) %>% 
   unite("department_name", c(city, state), sep = ",") %>% 
   select(department_name, year, total_pop, violent_per_100k, homs_per_100k, rape_per_100k, rob_per_100k, agg_ass_per_100k, lon, lat) %>%
-  filter(!department_name %in% overlaps) %>% 
+  filter(!department_name %in% overlaps & year != 2015) %>% 
   write_csv("data/crime_clean.csv")
 
 # fetch lat/lon for each city
