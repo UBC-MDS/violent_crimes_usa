@@ -15,7 +15,6 @@ ui <- dashboardPage(skin = "black",
 
   dashboardSidebar(
     sidebarMenu(
-
       tags$style(HTML(
         "hr {border-top: 0px solid #0D9DA3; margin-top: 0px;}
          .skin-black .main-sidebar {padding-top: 0px;}")),
@@ -46,10 +45,8 @@ ui <- dashboardPage(skin = "black",
   ),
 
     dashboardBody(
-      # change colours: 1&2: header background, 3: sidebar background, 4: main display background
+      # change colours: 1: sidebar background, 2: main display background
       tags$head(tags$style(HTML('
-        .skin-black .main-header .logo {background-color: #f2f4fb;}
-        .skin-black .main-header .navbar {background-color: #f2f4fb;}
         .skin-black .main-sidebar {background-color: #5c5470;}
         .content-wrapper, .right-side {background-color: #ffffff;}
         '))),
@@ -116,7 +113,7 @@ server <- function(input, output, session) {
                labels = c("> 1000", "100 - 1000", "20 - 100", "< 20"))
     })
   
-  # add event listener to map marker
+  # add event listener/user selection to map marker
   observe({
     click <- input$map_marker_click
     updateSelectizeInput(session, "city", selected = click$id)
@@ -135,7 +132,7 @@ server <- function(input, output, session) {
   # sum averages over time
   data_time_ave <- reactive({
 
-    # if user selectes "Average Over Time"
+    # if user selects "Average Over Time"
     if(input$year == "1975-2014") {
       # compute average the crime rates for each city
       data_ave <- data %>%
@@ -187,11 +184,21 @@ server <- function(input, output, session) {
     #data_edit <- data_edit[rep(row.names(data_edit), data_edit$COUNT), ]
     return(data_edit)
   })
+  
+  # allow user to select table column & update table
+  observe({
+    table_row <- (data %>% 
+      select(department_name) %>% 
+      distinct(department_name) %>% 
+      arrange(department_name) %>% 
+      pull(department_name))[input$table_rows_selected]
+    updateSelectizeInput(session, "city", selected = table_row)
+  })
 
   # rank table plot
   output$table <- renderDataTable(data_time_ave() %>%
       select(-c("lon", "lat")),
-    rownames = ""
+    rownames = "", selection = "single"
   )
 
   # select "All Cities"
