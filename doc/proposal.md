@@ -40,8 +40,8 @@ Below the map (or table) are four small line graphs that allow a user to learn m
 
 ### Sketch: Map View
 
-![Tab View 1](img/mockup_map_annotated.png)
+![Tab View 1](../img/mockup_map_annotated.png)
 
 ### Sketch: Table View
 
-![Tab View 2](img/mockup_table_annotated.png)
+![Tab View 2](../img/mockup_table_annotated.png)
