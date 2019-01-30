@@ -49,6 +49,7 @@ ui <- dashboardPage(skin = "black",
       tags$head(tags$style(HTML('
         .skin-black .main-sidebar {background-color: #5c5470;}
         .content-wrapper, .right-side {background-color: #ffffff;}
+        .content {padding-top: 1px;}
         '))),
 
       tags$div(
@@ -73,7 +74,7 @@ ui <- dashboardPage(skin = "black",
       # display plot
       fluidRow(
         h3(textOutput("plot_title"), style = "margin-bottom:20px"),
-        plotlyOutput("lineplot"),
+        plotlyOutput("lineplot", height = 350, width = "95%"),
         style='padding:20px;'
       )
   )
