@@ -8,7 +8,11 @@ Given the time limit of this week's milestone, we believe we can further improve
 
 To explore how the crime rates of a city has changed over time, users can now select a city directly from the map panel.
 
+![map_select](https://i.imgur.com/stLxkvv.gif)
+
 Users can also select a city directly from the rank table panel.
+
+![table_select](https://i.imgur.com/9uU5ae1.gif)
 
 By connecting different components of our application together, we aim to enhance one of the core functionalities of this project - we want to empower users to compare the crime rates of different cities at a particular point in time, as well as to explore how the crime rates of a city has changed over time. By linking the map panel and the rank table panel to the time series chart, we hope we have fundamentally improved the usability of our application.
 
