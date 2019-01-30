@@ -66,7 +66,7 @@ ui <- dashboardPage(skin = "black",
 
       # create tabs
       tabsetPanel(type = "tabs",
-        tabPanel("Map", leafletOutput("map", height = 350)),
+        tabPanel("Map", leafletOutput("map", height = 320)),
         tabPanel("Rank Table", dataTableOutput("table"))
       ),
 
