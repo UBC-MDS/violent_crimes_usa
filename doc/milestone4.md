@@ -30,14 +30,14 @@ Previously the data wrangling logic of this project was embedded in a poorly org
 
 ## If we were to start over...
 
-Throughout this program, we've been told that data cleaning forms about 80% of a data scientist's job. If we were to go back and start again, we would devote more time to the data cleaning portion, as we followed a more minimalistic approach to our data cleaning.
+Throughout the MDS program, we've been told that data cleaning is about 80% of a data scientist's job. If we were to go back and start again, we would devote more time to the data cleaning portion, as we did a more minimalistic approach to it this time, which led to extra challenges.
 
 We left our data in a wide dataframe with our crime rates each being in their own column. Starting over, we could combine all four crimes into two columns: the values in one column being the name of the crime, ex. "homicide", and the other column having the per capita rate of that crime. This would cause our dataframe to be significantly longer, but it would make the downstream reactive process much easier. It would be especially prevalent in the coding for displaying information for multiple crimes over multiple years. Further, had we created a more workable dataframe to begin with, we think it would've been easier to add more options for the users.
 
 Unfortunately, by the time we realized that our data would be easier to work with in a different format, we had made too much progress on our app and we would've had to rewrite most of the app in order to rectify the situation. Due to time constraints, this was not an option. If we were to start again, we would spend more time early on looking at the data and reformatting it to be more usable for our purpose.
 
 
-## Greatest challenges
+## Greatest Challenges
 
 #### George:
 
