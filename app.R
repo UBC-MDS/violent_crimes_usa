@@ -86,7 +86,7 @@ server <- function(input, output, session) {
   output$subtitle <- renderText("Compare Crime Rates (per 100k population) of Major US Cities")
   output$selected_year <- renderText({paste("|", input$year)})
   output$selected_crimes <- renderText({paste( "|", input$crime)})
-  
+
   # map plot
   output$map <- renderLeaflet({
     validate(need((is.null(input$crime) == FALSE),
@@ -187,12 +187,14 @@ server <- function(input, output, session) {
   
   # allow user to select table column & update table
   observe({
+    if(!is.null(input$table_rows_selected)){
     table_row <- (data %>% 
-      select(department_name) %>% 
-      distinct(department_name) %>% 
-      arrange(department_name) %>% 
-      pull(department_name))[input$table_rows_selected]
+                      select(department_name) %>% 
+                      distinct(department_name) %>% 
+                      arrange(department_name) %>%
+                      pull(department_name))[input$table_rows_selected]
     updateSelectizeInput(session, "city", selected = table_row)
+    }
   })
 
   # rank table plot
